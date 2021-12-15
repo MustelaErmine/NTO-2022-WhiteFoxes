@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menus/MainMenu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Cutscenes/FirstEnterCutscene.unity
+    guid: 4da7311d74d3d6942a62f0fbb9894905
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/PlanetChoice.unity
+    guid: 722613d21dd82864395975d7389a6907
   m_configObjects: {}

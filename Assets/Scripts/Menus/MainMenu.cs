@@ -10,16 +10,21 @@ public class MainMenu : MonoBehaviour
         Save.Load();
     }
 
-    void EnterGame()
+    public void EnterGame()
     {
         if (Save.instance.firstEnter)
         {
             Save.instance.firstEnter = false;
-            SceneManager.LoadScene("FirstEnterCutscene");
+            PlayFirstEnterCutscene();
         }
         else
         {
             SceneManager.LoadScene("PlanetChoice");
         }
+    }
+
+    void PlayFirstEnterCutscene()
+    {
+        SceneManager.LoadScene("FirstEnterCutscene");
     }
 }
