@@ -4,15 +4,82 @@ using UnityEngine;
 
 public class ShipMoving : MonoBehaviour
 {
-    // Start is called before the first frame update
+    new Rigidbody rigidbody;
+    new Transform transform;
+    Vector3 oldVelocity = new Vector3();
+    [SerializeField] float upWeight = 0;
+    [SerializeField] float downWeight = 0;
+    [SerializeField] float rightWeight = 0;
+    [SerializeField] float leftWeight = 0;
+
+    const float vecticalEngineStep = Mathf.PI / 200;
+    const float verticalImpulseStep = Mathf.PI / 100;
+    const float horizontalEngineStep = Mathf.PI / 200;
+    const float horizontalImpulseStep = Mathf.PI / 100;
+
+    const float maxVerticalSpeed = Mathf.PI / 2;
+    const float maxHorizontalSpeed = Mathf.PI / 2;
+
     void Start()
     {
-        
+        rigidbody = GetComponent<Rigidbody>();
+        transform = GetComponent<Transform>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        Vector3 new_velocity = oldVelocity;
+        Vector3 new_angular_velocity = new Vector3();
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            upWeight += vecticalEngineStep * Time.deltaTime * 60;
+            upWeight = Mathf.Min(maxHorizontalSpeed, upWeight);
+        }
+        else
+        {
+            upWeight -= verticalImpulseStep * Time.deltaTime * 60;
+            upWeight = Mathf.Max(0, upWeight);
+        }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            downWeight += vecticalEngineStep * Time.deltaTime * 60;
+            downWeight = Mathf.Min(maxVerticalSpeed, downWeight);
+        }
+        else
+        {
+            downWeight -= verticalImpulseStep * Time.deltaTime * 60;
+            downWeight = Mathf.Max(0, downWeight);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            rightWeight += horizontalEngineStep * Time.deltaTime * 60;
+            rightWeight = Mathf.Min(maxHorizontalSpeed, rightWeight);
+        }
+        else
+        {
+            rightWeight -= horizontalImpulseStep * Time.deltaTime * 60;
+            rightWeight = Mathf.Max(0, rightWeight);
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            leftWeight += horizontalEngineStep * Time.deltaTime * 60;
+            leftWeight = Mathf.Min(maxHorizontalSpeed, leftWeight);
+        }
+        else
+        {
+            leftWeight -= horizontalImpulseStep * Time.deltaTime * 60;
+            leftWeight = Mathf.Max(0, leftWeight);
+        }
+
+        //print($"{upWeight.ToString()}, {downWeight.ToString()}, { rightWeight.ToString()}, {leftWeight.ToString()}");
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, new Vector3(0, 0, maxVerticalSpeed), Mathf.Sin(upWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, new Vector3(0, 0, -maxVerticalSpeed), Mathf.Sin(downWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, new Vector3(0, maxHorizontalSpeed, 0), Mathf.Sin(rightWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, new Vector3(0, -maxHorizontalSpeed, 0), Mathf.Sin(leftWeight));
+        rigidbody.angularVelocity = new_angular_velocity;
     }
 }

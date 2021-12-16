@@ -55,9 +55,10 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Globals\Save.cs" />
     <Compile Include="Assets\Scripts\Menus\MainMenu.cs" />
-    <Compile Include="Assets\Scripts\Globals\ProceduralGeneration.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\CameraFollowing.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\ShipMoving.cs" />
+    <Compile Include="Assets\Scripts\Globals\ProceduralGeneration.cs" />
+    <Compile Include="Assets\Scripts\Globals\Session.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

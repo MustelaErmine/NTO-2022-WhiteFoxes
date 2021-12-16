@@ -19,11 +19,11 @@ public class Save
 
     public bool firstEnter = true;
     public string playerName = "AaronEnjoyer";
-    public long randomSeed = 37613761;
+    public Session session;
 
     public Save()
     {
-        randomSeed = ((System.DateTimeOffset)System.DateTime.Now).ToUnixTimeSeconds();
+        session = null;
     }
     public Save(string name) : this()
     {
@@ -32,7 +32,7 @@ public class Save
 
     public static void Load()
     {
-        if (instance != null)
+        if (_instance != null)
             return;
 
         if (!File.Exists(path))
@@ -44,6 +44,6 @@ public class Save
     }
     public static void Keep()
     {
-        File.WriteAllText(path, JsonUtility.ToJson(instance));
+        File.WriteAllText(path, JsonUtility.ToJson(_instance));
     }
 }

@@ -13,11 +13,15 @@ public class ProceduralGeneration
     
     public void Initialize()
     {
-        Initialize(Save.instance.randomSeed);
+        Initialize(Save.instance.session.randomSeed);
     }
 
     public int Next()
     {
         return random.Next();
+    }
+    public void MoveToPositon()
+    {
+        throw new NotImplementedException();
     }
 }

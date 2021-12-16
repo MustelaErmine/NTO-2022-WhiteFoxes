@@ -5,20 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    void Start()
+    public void Start()
     {
         Save.Load();
     }
 
     public void EnterGame()
     {
-        if (Save.instance.firstEnter)
+        if (Save.instance.session != null)
+        {
+            // ToDo: if we just have session
+        }
+        else if (Save.instance.firstEnter)
         {
             Save.instance.firstEnter = false;
             PlayFirstEnterCutscene();
         }
         else
         {
+            Save.instance.session = new Session();
             SceneManager.LoadScene("PlanetChoice");
         }
     }
