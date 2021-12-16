@@ -1,13 +1,14 @@
+using System;
+
 public class ProceduralGeneration
 {
     public static ProceduralGeneration instance;
 
-    private System.Random random;
+    private Random random;
 
     public void Initialize(long seed)
     {
-        //Random.InitState();
-        random = new System.Random((int)(seed % int.MaxValue));
+        random = new Random((int)(seed % int.MaxValue));
     }
     
     public void Initialize()
