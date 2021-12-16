@@ -75,11 +75,13 @@ public class ShipMoving : MonoBehaviour
             leftWeight = Mathf.Max(0, leftWeight);
         }
 
-        //print($"{upWeight.ToString()}, {downWeight.ToString()}, { rightWeight.ToString()}, {leftWeight.ToString()}");
-        new_angular_velocity += Vector3.Lerp(Vector3.zero, new Vector3(0, 0, maxVerticalSpeed), Mathf.Sin(upWeight));
-        new_angular_velocity += Vector3.Lerp(Vector3.zero, new Vector3(0, 0, -maxVerticalSpeed), Mathf.Sin(downWeight));
-        new_angular_velocity += Vector3.Lerp(Vector3.zero, new Vector3(0, maxHorizontalSpeed, 0), Mathf.Sin(rightWeight));
-        new_angular_velocity += Vector3.Lerp(Vector3.zero, new Vector3(0, -maxHorizontalSpeed, 0), Mathf.Sin(leftWeight));
+        print($"{upWeight}, {downWeight}, { rightWeight}, {leftWeight}");
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(new Vector3(-maxVerticalSpeed, 0, 0)), Mathf.Sin(upWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(new Vector3(maxVerticalSpeed, 0, 0)), Mathf.Sin(downWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(new Vector3(0, maxHorizontalSpeed, 0)), Mathf.Sin(rightWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(new Vector3(0, -maxHorizontalSpeed, 0)), Mathf.Sin(leftWeight));
         rigidbody.angularVelocity = new_angular_velocity;
+
+        rigidbody.velocity = transform.TransformDirection(Vector3.forward);
     }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\ShipMoving.cs" />
     <Compile Include="Assets\Scripts\Globals\ProceduralGeneration.cs" />
     <Compile Include="Assets\Scripts\Globals\Session.cs" />
+    <Compile Include="Assets\Scripts\Globals\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
