@@ -8,6 +8,7 @@ public class Session
     public uint randomGenerationsWasInOldStep = 0;
 
     public Dictionary<Skills, int> skills;
+    public List<InventoryItemType> inventory;
 
     public Session()
     {
@@ -19,8 +20,9 @@ public class Session
             {Skills.HyperDriveRecharge, 40},
             {Skills.TimeSlowCapacity, 7},
             {Skills.TimeSpeedCapacity, 10},
-            {Skills.Monitor, 0}
+            {Skills.Monitor, 2}
         };
+        inventory = new List<InventoryItemType> {InventoryItemType.Food, InventoryItemType.Water, InventoryItemType.Fuel};
     }
 
     public void NextStep()

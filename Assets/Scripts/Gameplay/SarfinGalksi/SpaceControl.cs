@@ -8,24 +8,45 @@ public class SpaceControl : MonoBehaviour
     public PlanetControl[] planets;
     public Slider energySlider, fuelSlider;
     public ShipMoving ship;
+    public int randomEventGeneration;
+
+    public RectTransform[] planetsPanels;
+    public static SpaceControl instance;
+    public RectTransform messageBox;
 
     public float energy = 0;
     public float hyperFuel = 0;
 
     void Start()
     {
+        instance = this;
         if (Save.instance.session == null)
         {
             Save.instance.session = new Session();
         }
         Save.Load();
+        foreach (RectTransform rectTransform in planetsPanels)
+        {
+            rectTransform.gameObject.SetActive(false);
+        }
         for (byte i = 0; i < 3; i++)
-            planets[i].GenerationNumber = ProceduralGeneration.instance.Next();
+        {
+            planets[i].myPanel = planetsPanels[i];
+            planets[i].Generate();
+        }
 
         Application.targetFrameRate = 60;
 
         energy = 1;
         hyperFuel = 1;
+
+        randomEventGeneration = ProceduralGeneration.instance.Next();
+
+        if (randomEventGeneration % 101 < 45)
+        {
+            CreateRandomEvent();
+        }
+
     }
 
     void Update()
@@ -61,6 +82,27 @@ public class SpaceControl : MonoBehaviour
 
         energySlider.value = energy;
         fuelSlider.value = hyperFuel;
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (Mathf.Abs((ship.transform.position - planets[i].transform.position).magnitude) < 2000f)
+                {
+                    planetsPanels[i].gameObject.SetActive(true);
+                }
+            }
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            planetsPanels[i].anchoredPosition = Utils.WorldToCanvasPostion(planets[i].transform.position) +
+                new Vector2(Screen.width / 20f, 0);
+            if (!planets[i].GetComponentInChildren<MeshRenderer>().isVisible)
+            {
+                planetsPanels[i].gameObject.SetActive(false);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -75,6 +117,32 @@ public class SpaceControl : MonoBehaviour
     public static void ChangeStep()
     {
         Save.instance.session.NextStep();
+        Save.Keep();
         UnityEngine.SceneManagement.SceneManager.LoadScene("PlanetChoice");
+    }
+
+    public void CreateRandomEvent()
+    {
+
+    }
+
+    public void ShowMessage(string text)
+    {
+        messageBox.gameObject.SetActive(true);
+        messageBox.GetChild(1).GetComponent<Text>().text = text;
+        ship.enabled = false;
+        ship.rigidbody.velocity = Vector3.zero;
+        StartCoroutine(WaitToButton());
+    }
+    public static void ShowMessageStatic(string text)
+    {
+        instance.ShowMessage(text);
+    }
+    public IEnumerator WaitToButton()
+    {
+        while (!Input.GetKeyDown(KeyCode.Space))
+            yield return null;
+        messageBox.gameObject.SetActive(false);
+        ship.enabled = true;
     }
 }

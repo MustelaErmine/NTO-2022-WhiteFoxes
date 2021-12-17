@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ShipMoving : MonoBehaviour
 {
-    new Rigidbody rigidbody;
+    public new Rigidbody rigidbody;
     public new Transform transform;
     Vector3 oldVelocity = new Vector3();
     [SerializeField] float upWeight = 0;

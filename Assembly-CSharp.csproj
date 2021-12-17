@@ -63,6 +63,9 @@
     <Compile Include="Assets\Scripts\Globals\ProceduralGeneration.cs" />
     <Compile Include="Assets\Scripts\Globals\Skills.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\ArrowToTarget.cs" />
+    <Compile Include="Assets\Scripts\Globals\InventoryItemType.cs" />
+    <Compile Include="Assets\Scripts\Globals\CaseType.cs" />
+    <Compile Include="Assets\Scripts\Globals\Item.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
