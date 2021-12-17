@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ArrowToTarget : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] Transform target;
+    new Transform transform;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        transform = GetComponent<Transform>();
+    }
     void Update()
     {
-        
+        transform.LookAt(target);
     }
 }
