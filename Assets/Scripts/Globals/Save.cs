@@ -41,6 +41,12 @@ public class Save
             Keep();
         }
         instance = JsonUtility.FromJson<Save>(File.ReadAllText(path));
+        if (_instance.session != null)
+        {
+            Debug.Log(_instance.session);
+            ProceduralGeneration.instance = new ProceduralGeneration(_instance.session.randomSeed,
+                                                                     _instance.session.randomGenerationsWasInOldStep);
+        }
     }
     public static void Keep()
     {

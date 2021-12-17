@@ -19,6 +19,7 @@ public class MainMenu : MonoBehaviour
         else if (Save.instance.firstEnter)
         {
             Save.instance.firstEnter = false;
+            Save.Keep();
             PlayFirstEnterCutscene();
         }
         else

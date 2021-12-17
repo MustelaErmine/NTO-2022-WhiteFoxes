@@ -6,22 +6,26 @@ public class ProceduralGeneration
 
     private Random random;
 
-    public void Initialize(long seed)
+    public ProceduralGeneration(long seed, uint step)
     {
         random = new Random((int)(seed % int.MaxValue));
+        MoveToPositon(step);
     }
+
+    public ProceduralGeneration(long seed) : this(seed, 0) {}
     
-    public void Initialize()
-    {
-        Initialize(Save.instance.session.randomSeed);
-    }
+    public ProceduralGeneration() : this(Save.instance.session.randomSeed) {}
 
     public int Next()
     {
+        Save.instance.session.randomGenerationsWas += 1;
         return random.Next();
     }
-    public void MoveToPositon()
+    void MoveToPositon(uint step)
     {
-        throw new NotImplementedException();
+        for (uint i = 0; i < step; i++)
+        {
+            Next();
+        }
     }
 }

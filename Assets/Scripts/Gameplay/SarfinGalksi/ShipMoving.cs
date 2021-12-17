@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ShipMoving : MonoBehaviour
 {
     new Rigidbody rigidbody;
-    new Transform transform;
+    public new Transform transform;
     Vector3 oldVelocity = new Vector3();
     [SerializeField] float upWeight = 0;
     [SerializeField] float downWeight = 0;
@@ -75,13 +76,21 @@ public class ShipMoving : MonoBehaviour
             leftWeight = Mathf.Max(0, leftWeight);
         }
 
-        print($"{upWeight}, {downWeight}, { rightWeight}, {leftWeight}");
-        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(new Vector3(-maxVerticalSpeed, 0, 0)), Mathf.Sin(upWeight));
-        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(new Vector3(maxVerticalSpeed, 0, 0)), Mathf.Sin(downWeight));
-        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(new Vector3(0, maxHorizontalSpeed, 0)), Mathf.Sin(rightWeight));
-        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(new Vector3(0, -maxHorizontalSpeed, 0)), Mathf.Sin(leftWeight));
+        //print($"{upWeight}, {downWeight}, { rightWeight}, {leftWeight}");
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(
+            new Vector3(-maxVerticalSpeed, 0, 0)), Mathf.Sin(upWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(
+            new Vector3(maxVerticalSpeed, 0, 0)), Mathf.Sin(downWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(
+            new Vector3(0, maxHorizontalSpeed, 0)), Mathf.Sin(rightWeight));
+        new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(
+            new Vector3(0, -maxHorizontalSpeed, 0)), Mathf.Sin(leftWeight));
         rigidbody.angularVelocity = new_angular_velocity;
 
-        rigidbody.velocity = transform.TransformDirection(Vector3.forward);
+        rigidbody.velocity = transform.TransformDirection(Vector3.forward * 100f);
+    }
+    private void Update()
+    {
+        
     }
 }
