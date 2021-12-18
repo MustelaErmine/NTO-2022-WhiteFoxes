@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class AntiRadiationWall : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Range(0f, 1f)]
+    public float antiEffect;
 }
