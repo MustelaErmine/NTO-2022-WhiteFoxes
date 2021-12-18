@@ -10,6 +10,7 @@ public class Session
 
     public Dictionary<Skills, int> skills;
     public List<ItemType> inventory;
+    public List<((float, float), ItemType)> shipDetails;
 
     public Session()
     {

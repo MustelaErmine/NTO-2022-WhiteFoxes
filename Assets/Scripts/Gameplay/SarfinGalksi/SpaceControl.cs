@@ -26,12 +26,6 @@ public class SpaceControl : MonoBehaviour
         {
             Save.instance.session = new Session();
         } 
-        else
-        {
-            if (ProceduralGeneration.instance == null)
-                ProceduralGeneration.instance = new ProceduralGeneration(Save.instance.session.randomSeed, 
-                    Save.instance.session.randomGenerationsWasInOldStep);
-        }
         Save.instance.session.step += 1;
         Save.Keep();
         foreach (RectTransform rectTransform in planetsPanels)

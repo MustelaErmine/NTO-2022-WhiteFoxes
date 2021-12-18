@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\ArrowToTarget.cs" />
     <Compile Include="Assets\Scripts\Globals\ProceduralGeneration.cs" />
     <Compile Include="Assets\Scripts\Menus\FirstEnterCutscene.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Kastracshin\ConstructionController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
