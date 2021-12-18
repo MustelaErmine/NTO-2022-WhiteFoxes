@@ -2188,6 +2188,7 @@ GameObject:
   - component: {fileID: 1397159792}
   - component: {fileID: 1397159791}
   - component: {fileID: 1397159790}
+  - component: {fileID: 1397159793}
   m_Layer: 0
   m_Name: deSheep
   m_TagString: Untagged
@@ -2248,6 +2249,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1397159793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397159789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca574ded293eca640b49cefa536babbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detail: {fileID: 6333164751830466360, guid: d7f4b1ac204d13349a8334147a2524b3, type: 3}
 --- !u!224 &1530948157 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4790984468471023206, guid: 2b02667495d50dc41b89f0f081e679bc, type: 3}

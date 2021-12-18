@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using Newtonsoft.Json;
 
 public class Save
 {
@@ -40,7 +41,7 @@ public class Save
             instance = new Save();
             Keep();
         }
-        instance = JsonUtility.FromJson<Save>(File.ReadAllText(path));
+        instance = JsonConvert.DeserializeObject<Save>(File.ReadAllText(path));
         if (_instance.session != null)
         {
             ProceduralGeneration.instance = new ProceduralGeneration(_instance.session.randomSeed,
@@ -49,6 +50,6 @@ public class Save
     }
     public static void Keep()
     {
-        File.WriteAllText(path, JsonUtility.ToJson(_instance));
+        File.WriteAllText(path, JsonConvert.SerializeObject(_instance, new JsonSerializerSettings{}));
     }
 }

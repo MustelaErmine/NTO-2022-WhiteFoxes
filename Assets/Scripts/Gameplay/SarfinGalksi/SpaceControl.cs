@@ -18,7 +18,7 @@ public class SpaceControl : MonoBehaviour
     public float energy = 0;
     public float hyperFuel = 0;
 
-    void Start()
+    void Awake()
     {
         instance = this;
         Save.Load();
@@ -43,13 +43,15 @@ public class SpaceControl : MonoBehaviour
         energy = 1;
         hyperFuel = 1;
 
+    }
+    private void Start()
+    {
         randomEventGeneration = ProceduralGeneration.instance.Next();
 
         if (randomEventGeneration % 101 < 45)
         {
             CreateRandomEvent();
         }
-
     }
 
     void Update()

@@ -121,6 +121,10 @@ public class PlanetControl : MonoBehaviour
             {
                 if (item.type == ItemType.Case)
                 {
+                    print(Save.instance);
+                    print(Save.instance.session);
+                    print(Save.instance.session.inventory);
+                    print(item);
                     Save.instance.session.inventory.Add(item.caseItem);
                 }
                 else

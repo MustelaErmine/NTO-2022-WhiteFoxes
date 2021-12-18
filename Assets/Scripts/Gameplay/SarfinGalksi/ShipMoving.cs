@@ -89,8 +89,4 @@ public class ShipMoving : MonoBehaviour
 
         rigidbody.velocity = transform.TransformDirection(Vector3.forward * 100f);
     }
-    private void Update()
-    {
-        
-    }
 }

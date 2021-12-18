@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class Session
@@ -10,7 +11,7 @@ public class Session
 
     public Dictionary<Skills, int> skills;
     public List<ItemType> inventory;
-    public List<((float, float), ItemType)> shipDetails;
+    public List<ShipDetail> shipDetails;
 
     public Session()
     {
@@ -25,6 +26,7 @@ public class Session
             {Skills.Monitor, 2}
         };
         inventory = new List<ItemType> {ItemType.Food, ItemType.Water, ItemType.Fuel};
+        shipDetails = new List<ShipDetail>();
     }
 
     public void NextStep()
