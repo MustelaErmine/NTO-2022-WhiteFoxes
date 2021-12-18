@@ -44,12 +44,12 @@ public class PlanetControl : MonoBehaviour
             challenge = 2;
 
         string itemsText = "";
-        itemsGenerations = new int[4] {0, 0, 0, 0};
+        itemsGenerations = new int[4] { 0, 0, 0, 0 };
         items = new List<Item>();
         for (int i = 0; i < Mathf.Min(4, Save.instance.session.skills[Skills.Monitor]); i++)
         {
             itemsGenerations[i] = ProceduralGeneration.instance.Next();
-            items.Add(GetNumberedItem(itemsGenerations[i]));
+            items.Add(GetNumberedItem(itemsGenerations[i], 13));
             itemsText += GetNameOfItem(items[i]) + "\n";
         }
 
@@ -80,55 +80,89 @@ public class PlanetControl : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
+        string chal = "";
+        switch (challenge)
+        {
+            case 0:
+                chal = "Все хорошо, вашей безопасности ничего не угрожает.";
+                break;
+            case 1:
+                chal = "На планете природные катоклизмы. Вам нужны: 2 еды, 1 вода и 1 топливо";
+                break;
+            case 2:
+                chal = "На планете на вас напали. Вам нужен корабль мощностью 5.";
+                break;
+        }
         if (other.tag == "Player")
-            Landing();
+            SpaceControl.ShowMessageStatic(chal, Landing);
     }
 
     void Landing()
     {
-        SpaceControl.ShowMessageStatic("You have challenge " + challenge.ToString());
+        print("Landing");
         switch (challenge)
         {
             case 0:
                 break;
             case 1:
+                foreach (ItemType item in new ItemType[] { ItemType.Food, ItemType.Fuel, ItemType.Water, ItemType.Food })
+                    if (!Save.instance.session.inventory.Contains(item))
+                        SpaceControl.Die();
+                    else
+                        Save.instance.session.inventory.Remove(item);
                 break;
             case 2:
+                //ToDo: check speisheep power
                 break;
         }
+        SpaceControl.ShowMessageStatic("Все хорошо, вы выжили и можете отправляться в следующее приключение.", () =>
+        {
+            foreach (Item item in items)
+            {
+                if (item.type == ItemType.Case)
+                {
+                    Save.instance.session.inventory.Add(item.caseItem);
+                }
+                else
+                {
+                    Save.instance.session.inventory.Add(item.type);
+                }
+            }
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Construction");
+        });
     }
 
-    public Item GetNumberedItem(int num)
+    public static Item GetNumberedItem(int num, int typeMod)
     {
         Item item = new Item();
-        switch (num % 13)
+        switch (num % typeMod)
         {
             case 0:
-                item.type = InventoryItemType.DetailBook;
+                item.type = ItemType.DetailBook;
                 break;
             case 1:
-                item.type = InventoryItemType.Case;
+                item.type = ItemType.Case;
                 break;
             case 2:
-                item.type = InventoryItemType.DetailFire;
+                item.type = ItemType.DetailFire;
                 break;
             case 3:
-                item.type = InventoryItemType.DetailIce;
+                item.type = ItemType.DetailIce;
                 break;
             case 4:
-                item.type = InventoryItemType.DetailRadiation;
+                item.type = ItemType.DetailRadiation;
                 break;
             default:
                 if ((num - 4) % 3 == 0)
-                    item.type = InventoryItemType.Food;
+                    item.type = ItemType.Food;
                 else if ((num - 4) % 3 == 1)
-                    item.type = InventoryItemType.Water;
+                    item.type = ItemType.Water;
                 else
-                    item.type = InventoryItemType.Fuel;
+                    item.type = ItemType.Fuel;
                 break;
         }
         int caset = num % 100003;
-        if (item.type == InventoryItemType.Case)
+        if (item.type == ItemType.Case)
         {
             if (caset <= 1)
                 item.caseType = CaseType.Black;
@@ -148,30 +182,30 @@ public class PlanetControl : MonoBehaviour
             {
                 int caseItem = num % 3;
                 if (caseItem == 0)
-                    item.caseItem = InventoryItemType.Skin;
+                    item.caseItem = ItemType.Skin;
                 else if (caseItem == 1)
-                    item.caseItem = InventoryItemType.Drawing;
+                    item.caseItem = ItemType.Drawing;
                 else
-                    item.caseItem = InventoryItemType.SpecialDetail;
+                    item.caseItem = ItemType.SpecialDetail;
             }
             else
             {
                 int caseItem = num % 5;
                 if (caseItem == 0)
-                    item.caseItem = InventoryItemType.Bonus;
+                    item.caseItem = ItemType.Bonus;
                 else if (caseItem == 1)
-                    item.caseItem = InventoryItemType.Drawing;
+                    item.caseItem = ItemType.Drawing;
                 else if (caseItem == 2)
-                    item.caseItem = InventoryItemType.SpecialDetail;
+                    item.caseItem = ItemType.SpecialDetail;
                 else
-                    item.caseItem = InventoryItemType.Skin;
+                    item.caseItem = ItemType.Skin;
             }
         }
         return item;
     }
-    public string GetNameOfItem(Item item)
+    public static string GetNameOfItem(Item item)
     {
-        if (item.type == InventoryItemType.Case)
+        if (item.type == ItemType.Case)
             return item.type.ToString() + " " + item.caseType.ToString();
         return item.type.ToString();
     }

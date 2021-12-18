@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+[System.Serializable]
 public class Session
 {
     public long randomSeed = 37613761;
@@ -8,7 +9,7 @@ public class Session
     public uint randomGenerationsWasInOldStep = 0;
 
     public Dictionary<Skills, int> skills;
-    public List<InventoryItemType> inventory;
+    public List<ItemType> inventory;
 
     public Session()
     {
@@ -22,7 +23,7 @@ public class Session
             {Skills.TimeSpeedCapacity, 10},
             {Skills.Monitor, 2}
         };
-        inventory = new List<InventoryItemType> {InventoryItemType.Food, InventoryItemType.Water, InventoryItemType.Fuel};
+        inventory = new List<ItemType> {ItemType.Food, ItemType.Water, ItemType.Fuel};
     }
 
     public void NextStep()

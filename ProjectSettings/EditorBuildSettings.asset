@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Gameplay/PlanetChoice.unity
     guid: 722613d21dd82864395975d7389a6907
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/Construction.unity
+    guid: 667e6c5fbd61e954da08377d9dcb5f8d
   m_configObjects: {}

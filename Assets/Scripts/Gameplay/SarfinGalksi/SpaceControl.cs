@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +21,19 @@ public class SpaceControl : MonoBehaviour
     void Start()
     {
         instance = this;
+        Save.Load();
         if (Save.instance.session == null)
         {
             Save.instance.session = new Session();
+        } 
+        else
+        {
+            if (ProceduralGeneration.instance == null)
+                ProceduralGeneration.instance = new ProceduralGeneration(Save.instance.session.randomSeed, 
+                    Save.instance.session.randomGenerationsWasInOldStep);
         }
-        Save.Load();
+        Save.instance.session.step += 1;
+        Save.Keep();
         foreach (RectTransform rectTransform in planetsPanels)
         {
             rectTransform.gameObject.SetActive(false);
@@ -109,7 +118,7 @@ public class SpaceControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(hyperFuel - 1f) < 1e-5)
         {
-            ship.transform.Translate(ship.transform.forward * Save.instance.session.skills[Skills.HyperDriveForce] * 100f);
+            ship.transform.Translate(ship.transform.forward * Save.instance.session.skills[Skills.HyperDriveForce] * 1000f);
             hyperFuel = 0;
         }
     }
@@ -123,26 +132,65 @@ public class SpaceControl : MonoBehaviour
 
     public void CreateRandomEvent()
     {
-
+        string where = "";
+        switch (randomEventGeneration % 3) {
+            case 0:
+                where = "Заброшенная планета";
+                break;
+            case 1:
+                where = "Заправка";
+                break;
+            case 2:
+                where = "Космическая станция империи Авион";
+                break;
+        }
+        where += "\n";
+        string founded = "Вы там нашли: ";
+        Item item = PlanetControl.GetNumberedItem(randomEventGeneration, 5);
+        if (item.type == ItemType.Case)
+        {
+            founded += "кейс.";
+        }
+        else if (item.type == ItemType.DetailBook)
+        {
+            founded += "таинственную записку.";
+        }
+        else
+        {
+            founded += "деталь.";
+        }
+        founded += "\n";
+        ShowMessageStatic("Внимание!\n" + where + founded);
     }
 
-    public void ShowMessage(string text)
+    public void ShowMessage(string text, Action action)
     {
         messageBox.gameObject.SetActive(true);
         messageBox.GetChild(1).GetComponent<Text>().text = text;
         ship.enabled = false;
         ship.rigidbody.velocity = Vector3.zero;
-        StartCoroutine(WaitToButton());
+        StartCoroutine(WaitToButton(action));
     }
-    public static void ShowMessageStatic(string text)
+    public static void ShowMessageStatic(string text, Action action = null)
     {
-        instance.ShowMessage(text);
+        instance.ShowMessage(text, action);
     }
-    public IEnumerator WaitToButton()
+    public IEnumerator WaitToButton(Action action)
     {
-        while (!Input.GetKeyDown(KeyCode.Space))
+        while (!Input.GetKeyDown(KeyCode.C))
             yield return null;
         messageBox.gameObject.SetActive(false);
         ship.enabled = true;
+        yield return new WaitForSeconds(0.01f);
+        action?.Invoke();
+    }
+    public static void Die()
+    {
+        ShowMessageStatic("Вы умерли от недостатка ресурсов", () =>
+        {
+            Save.instance.session = null;
+            Save.Keep();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        });
     }
 }

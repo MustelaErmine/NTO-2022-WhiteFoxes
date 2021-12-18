@@ -14,7 +14,7 @@ public class MainMenu : MonoBehaviour
     {
         if (Save.instance.session != null)
         {
-            // ToDo: if we just have session
+            SceneManager.LoadScene("PlanetChoice");
         }
         else if (Save.instance.firstEnter)
         {

@@ -1,4 +1,4 @@
-﻿public enum InventoryItemType
+﻿public enum ItemType
 {
     Food,
     Water,

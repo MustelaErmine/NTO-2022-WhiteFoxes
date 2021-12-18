@@ -1,6 +1,6 @@
 ﻿public class Item
 {
-    public InventoryItemType type;
+    public ItemType type;
     public CaseType caseType;
-    public InventoryItemType caseItem;
+    public ItemType caseItem;
 }
