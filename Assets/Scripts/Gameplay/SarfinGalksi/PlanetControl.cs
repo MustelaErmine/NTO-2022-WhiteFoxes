@@ -8,26 +8,10 @@ public class PlanetControl : MonoBehaviour
     public void Generate()
     {
         _generationNumber = ProceduralGeneration.instance.Next();
-        type = _generationNumber % 4;
-        Color color = Color.black;
+        type = _generationNumber % 3;
 
-        switch (type)
-        {
-            case 0:
-                color = Color.red;
-                break;
-            case 1:
-                color = Color.blue;
-                break;
-            case 2:
-                color = Color.green;
-                break;
-            case 3:
-                color = Color.cyan;
-                break;
-        }
         //Temp
-        GetComponentInChildren<MeshRenderer>().material.color = color;
+        GetComponentInChildren<MeshFilter>().mesh = planetTypes[type];
         //EndTemp
         float delta = _generationNumber % 2003 + 2000;
         Vector3 direction = new Vector3(_generationNumber % 137, _generationNumber % 139, _generationNumber % 149);
@@ -63,7 +47,8 @@ public class PlanetControl : MonoBehaviour
     new Rigidbody rigidbody;
     public int[] itemsGenerations = new int[4];
     List<Item> items;
-
+    [SerializeField] Mesh[] planetTypes;
+     
     new Transform transform
     {
         get
@@ -107,7 +92,10 @@ public class PlanetControl : MonoBehaviour
             case 1:
                 foreach (ItemType item in new ItemType[] { ItemType.Food, ItemType.Fuel, ItemType.Water, ItemType.Food })
                     if (!Save.instance.session.inventory.Contains(item))
+                    {
                         SpaceControl.Die();
+                        return;
+                    }
                     else
                         Save.instance.session.inventory.Remove(item);
                 break;
@@ -132,7 +120,7 @@ public class PlanetControl : MonoBehaviour
                     Save.instance.session.inventory.Add(item.type);
                 }
             }
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Construction");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("OnPlanet");
         });
     }
 

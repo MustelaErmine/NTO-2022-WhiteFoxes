@@ -8,34 +8,50 @@ public class RadiationSource : MonoBehaviour
     Texture2D texture;
     const int width = 256, height = 256;
     const int center_x = width / 2, center_y = height / 2;
-    const float scale = 10;
+    float scale = 10;
     const int radius = (width + height) / 4;
-    const float rradius = scale / 2;
+    float rradius;
     new Transform transform;
-    Vector3 lastPosition;
+    Transform quad;
+    Vector3? lastPosition;
     int mask;
-    bool isCreating = false;
+    public float? time = null;
+    [SerializeField] GameObject mePrefab;
     void Start()
     {
-        print(rradius);
         texture = new Texture2D(width, height);
-        texture.filterMode = FilterMode.Bilinear;
+        texture.filterMode = FilterMode.Trilinear;
         transform = GetComponent<Transform>();
         transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTexture = texture;
-        lastPosition = Vector3.up;
+        lastPosition = null;
         mask = LayerMask.GetMask("Walls");
+        quad = transform.GetChild(0);
+        CreateTexture();
     }
 
     void FixedUpdate()
     {
-        if (transform.position != lastPosition && !isCreating)
+        scale = quad.localScale.x * transform.localScale.x * transform.parent.localScale.x;
+        rradius = scale / 2;
+        if (transform.position != lastPosition)
             CreateTexture();
         lastPosition = transform.position;
     }
 
-    void CreateTexture()
+    private void Update()
     {
-        isCreating = true;
+        if (time.HasValue && time > 0)
+        {
+            time -= Time.deltaTime;
+        }
+        if (time.HasValue && time < 0.01f)
+        {
+            Destroy(this);
+        }
+    }
+
+    public void CreateTexture()
+    {
         Vector3 origin = transform.position;
         /*for (int i = 0; i < width; i++)
         {
@@ -68,7 +84,7 @@ public class RadiationSource : MonoBehaviour
             {
                 float x = i - center_x, y = j - center_y;
                 float to_center = 1f - Mathf.Sqrt(x * x / (radius * radius) + y * y / (radius * radius));
-                colors[i, j] = to_center * 1.5f;
+                colors[i, j] = to_center;
                 //colors[i, j] = 1f;
             }
         }
@@ -88,12 +104,15 @@ public class RadiationSource : MonoBehaviour
                 float mul = hit.transform.GetComponent<AntiRadiationWall>().antiEffect;
                 for (int i = 0; i < (int)((rradius - p.magnitude) / dest_len) * 2; i++)
                 {
-                    int x, y;
+                    float x, y;
+                    int x1, x2, y1, y2;
                     Vector3 newPoint = p + destination * i * scale / width;
-                    x = (int)(newPoint.x / scale * width) + center_x;
-                    y = (int)(newPoint.z / scale * width) + center_y;
-                    if (0 <= x && x < width && 0 <= y && y < height)
-                        colors[x, y] *= mul;
+                    x = (newPoint.x / scale * width) + center_x;
+                    y = (newPoint.z / scale * width) + center_y;
+                    x1 = Mathf.RoundToInt(x);
+                    y1 = Mathf.RoundToInt(y); 
+                    if (0 <= x1 && x1 < width && 0 <= y1 && y1 < height)
+                        colors[x1, y1] *= mul;
                 }
             }
         }
@@ -125,6 +144,34 @@ public class RadiationSource : MonoBehaviour
         }
 
         texture.Apply();
-        isCreating = false;
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            Ray ray = new Ray(transform.position, other.transform.position - transform.position);
+            RaycastHit[] hits = Physics.RaycastAll(ray, (other.transform.position - transform.position).magnitude, mask);
+            float mul = 1f - (other.transform.position - transform.position).magnitude / rradius;
+            foreach(RaycastHit hit in hits)
+            {
+                mul *= 1f - hit.transform.GetComponent<AntiRadiationWall>().antiEffect;
+            }
+            other.GetComponent<ShipOnPlanet>().ApplyRadiation(mul);
+        }
+        else if (other.gameObject.layer == 7)
+        {
+            Ray ray = new Ray(transform.position, other.transform.position - transform.position);
+            RaycastHit[] hits = Physics.RaycastAll(ray, (other.transform.position - transform.position).magnitude, mask);
+            float mul = 1f - (other.transform.position - transform.position).magnitude / rradius;
+            foreach (RaycastHit hit in hits)
+            {
+                mul *= 1f - hit.transform.GetComponent<AntiRadiationWall>().antiEffect;
+            }
+            if (mul >= 0.5f)
+            {
+                GameObject child = Instantiate(mePrefab, other.transform);
+                child.GetComponent<RadiationSource>().time = 15f;
+            }
+        }
     }
 }
