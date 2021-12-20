@@ -7,9 +7,21 @@ public class Bullet : MonoBehaviour
     public Enemy target;
     void Update()
     {
-        if ((target.transform.position - transform.position).magnitude > 2f)
+        if (target != null)
         {
-            transform.Translate((target.transform.position - transform.position).normalized);
+            if ((target.transform.position - transform.position).magnitude > 2f)
+            {
+                transform.Translate((target.transform.position - transform.position).normalized);
+            }
+            else
+            {
+                target.Hurt();
+                Destroy(gameObject);
+            }
+        } 
+        else
+        {
+            Destroy(gameObject);
         }
     }
 }

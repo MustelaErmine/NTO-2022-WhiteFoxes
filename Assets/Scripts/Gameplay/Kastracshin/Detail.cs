@@ -10,27 +10,41 @@ public class Detail : MonoBehaviour
     public ShipDetail reference;
     public bool work = false;
     [SerializeField] GameObject bullet;
+    [SerializeField] Mesh fMesh, eMesh, rMesh;
+    [SerializeField] Material fMat, eMat, rMat;
+    [SerializeField] AudioClip fSound, eSound, rSound;
+    AudioClip mainclip;
     public ItemType DetailType
     {
         set
         {
             _detailType = value;
-            Color color;
+            Mesh m = null;
+            Material mat = null;
+            AudioClip c = null;
             switch (_detailType)
             {
                 case ItemType.DetailFire:
-                    color = Color.red;
+                    mat = fMat;
+                    m = fMesh;
+                    c = fSound;
                     break;
                 case ItemType.DetailIce:
-                    color = Color.blue;
+                    mat = eMat;
+                    m = eMesh;
+                    c = eSound;
                     break;
                 case ItemType.DetailRadiation:
-                    color = Color.green;
+                    mat = rMat;
+                    m = rMesh;
+                    c = rSound;
                     break;
                 default:
                     throw new System.ArgumentException();
             }
-            GetComponentInChildren<MeshRenderer>().material.color = color;
+            GetComponentInChildren<MeshRenderer>().material = mat;
+            GetComponentInChildren<MeshFilter>().mesh = m;
+            mainclip = c;
         }
         get
         {
@@ -71,5 +85,6 @@ public class Detail : MonoBehaviour
         }
         GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 1, 0), new Quaternion(0,0,0,0));
         bul.GetComponent<Bullet>().target = minenemy;
+        GetComponent<AudioSource>().PlayOneShot(mainclip);
     }
 }

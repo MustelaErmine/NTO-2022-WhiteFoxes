@@ -17,6 +17,7 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] GameObject radiationOrigin, enemyor, resor;
     List<GameObject> radiations;
     [SerializeField] Text food, water;
+    [SerializeField] Mesh coal;
     void Start()
     {
         health = maxHealth;
@@ -43,6 +44,8 @@ public class ShipOnPlanet : MonoBehaviour
                             Resource res =  Instantiate(resor, new Vector3(i, 0.5f, j), new Quaternion(0,0,0,0))
                                 .GetComponent<Resource>();
                             res.water = wat % 2 == 0;
+                            if (!res.water)
+                                res.GetComponentInChildren<MeshFilter>().mesh = coal;
                             break;
                     }
                 }

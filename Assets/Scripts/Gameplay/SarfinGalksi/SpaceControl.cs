@@ -14,7 +14,7 @@ public class SpaceControl : MonoBehaviour
     public RectTransform[] planetsPanels;
     public static SpaceControl instance;
     public RectTransform messageBox;
-    [SerializeField] Text food, water, years;
+    [SerializeField] Text food, water, years, invent;
 
     public float energy = 0;
     public float hyperFuel = 0;
@@ -67,6 +67,13 @@ public class SpaceControl : MonoBehaviour
         food.text = "Еда: " + Save.instance.session.inventory.FindAll((ItemType t)=> t == ItemType.Food).Count.ToString();
         water.text = "Вода: " + Save.instance.session.inventory.FindAll((ItemType t)=> t == ItemType.Water).Count.ToString();
         years.text = "Св. года: " + Save.instance.session.years;
+        string inv = "Инвентарь:\n";
+        foreach(ItemType item in Save.instance.session.inventory)
+        {
+            if (item != ItemType.Food && item != ItemType.Water)
+                inv += item.ToString() + "\n";
+        }
+        invent.text = inv;
     }
     private void Start()
     {

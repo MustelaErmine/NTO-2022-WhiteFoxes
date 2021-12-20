@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    float health = 100f;
+    public ShipOnPlanet ship;
+    public Material normal, hurt, rad;
+    public Mesh mnormal, mhurt, mrad;
     void Start()
     {
         StartCoroutine(Walk());
@@ -13,29 +17,27 @@ public class Enemy : MonoBehaviour
         while (true)
         {
             Vector3 oldpos = transform.position;
-            Vector3 newPos = transform.position;
-            float type = Random.value;
-            if (type <= 0.25f)
-            {
-                newPos += new Vector3(10f, 0, 0);
-            }
-            else if (type <= 0.5f)
-            {
-                newPos += new Vector3(-10f, 0, 0);
-            }
-            else if (type <= 0.75f)
-            {
-                newPos += new Vector3(0, 0, 10f);
-            }
-            else
-            {
-                newPos += new Vector3(0, 0, -10);
-            }
-            while ((transform.position - newPos).magnitude > 1f)
-            {
-                GetComponent<Rigidbody>().velocity = (newPos - oldpos).normalized;
-                yield return null;
-            }
+            Vector3 newPos = ship.transform.position;
+            GetComponent<Rigidbody>().velocity = (newPos - oldpos).normalized;
+            yield return null;
         }
+    }
+    public void Hurt()
+    {
+        health -= 7f;
+        StartCoroutine(Hurted());
+        
+        if (health < 0f)
+        {
+            Destroy(gameObject);
+        }
+    }
+    IEnumerator Hurted()
+    {
+        GetComponent<MeshRenderer>().material = hurt;
+        GetComponent<MeshFilter>().mesh = mhurt;
+        yield return new WaitForSeconds(1f);
+        GetComponent<MeshRenderer>().material = normal;
+        GetComponent<MeshFilter>().mesh = mnormal;
     }
 }

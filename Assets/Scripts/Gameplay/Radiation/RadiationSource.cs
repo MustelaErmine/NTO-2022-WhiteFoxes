@@ -33,7 +33,7 @@ public class RadiationSource : MonoBehaviour
     {
         scale = quad.localScale.x * transform.localScale.x * transform.parent.localScale.x;
         rradius = scale / 2;
-        if (transform.position != lastPosition)
+        if (transform.position != lastPosition && !time.HasValue)
             CreateTexture();
         lastPosition = transform.position;
     }
@@ -158,7 +158,10 @@ public class RadiationSource : MonoBehaviour
             }
             other.GetComponent<ShipOnPlanet>().ApplyRadiation(mul);
         }
-        else if (other.gameObject.layer == 7)
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 8)
         {
             Ray ray = new Ray(transform.position, other.transform.position - transform.position);
             RaycastHit[] hits = Physics.RaycastAll(ray, (other.transform.position - transform.position).magnitude, mask);
@@ -167,10 +170,15 @@ public class RadiationSource : MonoBehaviour
             {
                 mul *= 1f - hit.transform.GetComponent<AntiRadiationWall>().antiEffect;
             }
-            if (mul >= 0.5f)
+            if (other.GetComponentInChildren<RadiationSource>() == null)
             {
                 GameObject child = Instantiate(mePrefab, other.transform);
                 child.GetComponent<RadiationSource>().time = 15f;
+                Enemy enemy = other.GetComponent<Enemy>();
+                enemy.normal = enemy.rad; 
+                enemy.mnormal = enemy.mrad;
+                enemy.GetComponent<MeshRenderer>().material = enemy.rad;
+                enemy.GetComponent<MeshFilter>().mesh = enemy.mrad;
             }
         }
     }
