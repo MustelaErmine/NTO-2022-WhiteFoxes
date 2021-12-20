@@ -21,10 +21,12 @@ public class Save
     public bool firstEnter = true;
     public string playerName = "AaronEnjoyer";
     public Session session;
+    public int record;
 
     public Save()
     {
         session = null;
+        record = 0;
     }
     public Save(string name) : this()
     {
@@ -51,5 +53,11 @@ public class Save
     public static void Keep()
     {
         File.WriteAllText(path, JsonConvert.SerializeObject(_instance, new JsonSerializerSettings{}));
+    }
+    public static void Die()
+    {
+        instance.record = Mathf.Max(instance.record, instance.session.years);
+        instance.session = null;
+        Save.Keep();
     }
 }

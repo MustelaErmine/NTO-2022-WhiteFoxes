@@ -8,6 +8,8 @@ public class Detail : MonoBehaviour
     private ItemType _detailType;
     public ConstructionController controller;
     public ShipDetail reference;
+    public bool work = false;
+    [SerializeField] GameObject bullet;
     public ItemType DetailType
     {
         set
@@ -44,5 +46,30 @@ public class Detail : MonoBehaviour
         //print(Save.instance.session.shipDetails);
         controller.UpdateItems();
         controller.detailTypeUse = ItemType.Bonus;
+    }
+
+    public void Update()
+    {
+        if (work)
+        {
+            work = false;
+            InvokeRepeating("Shot", 2f, 2f);
+        }
+    }
+    void Shot()
+    {
+        Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
+        Enemy minenemy = null;
+        float mindist = Mathf.Pow(10, 9);
+        foreach(Enemy enemy in enemies)
+        {
+            if (mindist > (transform.position - enemy.transform.position).magnitude)
+            {
+                mindist = (transform.position - enemy.transform.position).magnitude;
+                minenemy = enemy;
+            }
+        }
+        GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 1, 0), new Quaternion(0,0,0,0));
+        bul.GetComponent<Bullet>().target = minenemy;
     }
 }

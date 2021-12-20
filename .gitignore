@@ -6,3 +6,4 @@ Logs/
 obj\
 .vs/
 *.cache
+Build/

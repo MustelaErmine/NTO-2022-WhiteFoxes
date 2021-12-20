@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShipDisplaying : MonoBehaviour
 {
     [SerializeField] GameObject detail;
+    public bool work = false;
     void Start()
     {
         Save.Load();
@@ -23,5 +24,9 @@ public class ShipDisplaying : MonoBehaviour
         //obj.transform.eulerAngles = quaternion;
         Detail detailController = obj.GetComponent<Detail>();
         detailController.DetailType = type;
+        if (work)
+        {
+            detailController.work = true;
+        }
     }
 }

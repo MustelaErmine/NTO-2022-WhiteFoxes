@@ -14,9 +14,12 @@ public class SpaceControl : MonoBehaviour
     public RectTransform[] planetsPanels;
     public static SpaceControl instance;
     public RectTransform messageBox;
+    [SerializeField] Text food, water, years;
 
     public float energy = 0;
     public float hyperFuel = 0;
+
+    const int m_water = 1, m_food = 1;
 
     void Awake()
     {
@@ -43,6 +46,27 @@ public class SpaceControl : MonoBehaviour
         energy = 1;
         hyperFuel = 1;
 
+        try
+        {
+            for (int i = 0; i < m_water; i++) 
+            {
+                if (!Save.instance.session.inventory.Remove(ItemType.Water))
+                    throw new Exception();
+            }
+            for (int i = 0; i < m_food; i++) 
+            {
+                if (!Save.instance.session.inventory.Remove(ItemType.Food))
+                    throw new Exception();
+            }
+        } 
+        catch
+        {
+            Die("У вас недостаточно ресурсов для продолжения приключения");
+        }
+
+        food.text = "Еда: " + Save.instance.session.inventory.FindAll((ItemType t)=> t == ItemType.Food).Count.ToString();
+        water.text = "Вода: " + Save.instance.session.inventory.FindAll((ItemType t)=> t == ItemType.Water).Count.ToString();
+        years.text = "Св. года: " + Save.instance.session.years;
     }
     private void Start()
     {
@@ -56,8 +80,6 @@ public class SpaceControl : MonoBehaviour
 
     void Update()
     {
-        //print($"{energy}, {hyperFuel}");
-
         float newTimeScale = 1f;
         if (Input.GetKey(KeyCode.LeftControl) && energy > 0f)
         {
@@ -119,13 +141,6 @@ public class SpaceControl : MonoBehaviour
         }
     }
 
-    public static void ChangeStep()
-    {
-        Save.instance.session.NextStep();
-        Save.Keep();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("PlanetChoice");
-    }
-
     public void CreateRandomEvent()
     {
         string where = "";
@@ -180,12 +195,11 @@ public class SpaceControl : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
         action?.Invoke();
     }
-    public static void Die()
+    public static void Die(string text= "Вы умерли от недостатка ресурсов")
     {
-        ShowMessageStatic("Вы умерли от недостатка ресурсов", () =>
+        ShowMessageStatic(text, () =>
         {
-            Save.instance.session = null;
-            Save.Keep();
+            Save.Die();
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         });
     }

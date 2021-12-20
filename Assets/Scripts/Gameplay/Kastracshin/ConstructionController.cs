@@ -116,7 +116,7 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
     }
     public void NextSpace()
     {
-        Save.Keep();
+        Save.instance.session.NextStep();
         UnityEngine.SceneManagement.SceneManager.LoadScene("PlanetChoice");
     }
 }

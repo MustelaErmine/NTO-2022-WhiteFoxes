@@ -11,11 +11,12 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] Slider healthSlider;
     [SerializeField] RectTransform messageBox;
     float speed = 10f;
-    new Rigidbody rigidbody;
+    public new Rigidbody rigidbody;
     new Transform transform;
     bool flagRd = false;
     [SerializeField] GameObject radiationOrigin;
     List<GameObject> radiations;
+    [SerializeField] Text food, water;
     void Start()
     {
         health = maxHealth;
@@ -23,7 +24,7 @@ public class ShipOnPlanet : MonoBehaviour
         transform = GetComponent<Transform>();
         Save.Load();
 
-        radiations = new List<GameObject> { radiationOrigin };
+        /*radiations = new List<GameObject> { radiationOrigin };
         for (int i = 0; i < 11; i++)
         {
             radiations.Add(Instantiate(radiationOrigin));
@@ -36,18 +37,26 @@ public class ShipOnPlanet : MonoBehaviour
                 continue;
             radiations[i].transform.position = new Vector3((x % 5 - 2) * 10, 0.5f, (y % 5 - 2) * 10);
             //radiations[i].GetComponentInChildren<RadiationSource>().CreateTexture();
-        }
+        }*/
+
+        UpdateWaterFood();
     }
+
+    internal void UpdateWaterFood()
+    {
+        food.text = "Еда: " + Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
+        water.text = "Вода: " + Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count
+             .ToString();
+    }
+
     void LateUpdate()
     {
         healthSlider.value = health / maxHealth;
         if (!flagRd)
         {
             flagRd = true;
-            for (int i = 0; i < 12; i++)
-            {
-                radiations[i].GetComponentInChildren<RadiationSource>().CreateTexture();
-            }
+            radiationOrigin.GetComponentInChildren<RadiationSource>().CreateTexture();
+            
         }
     }
     private void FixedUpdate()
@@ -75,8 +84,7 @@ public class ShipOnPlanet : MonoBehaviour
     {
         ShowMessage("Вы умерли от недостатка здоровья", () =>
         {
-            Save.instance.session = null;
-            Save.Keep();
+            Save.Die();
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         });
     }
