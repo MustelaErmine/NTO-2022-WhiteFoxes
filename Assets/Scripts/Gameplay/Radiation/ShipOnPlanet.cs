@@ -14,7 +14,7 @@ public class ShipOnPlanet : MonoBehaviour
     public new Rigidbody rigidbody;
     new Transform transform;
     bool flagRd = false;
-    [SerializeField] GameObject radiationOrigin;
+    [SerializeField] GameObject radiationOrigin, enemyor, resor;
     List<GameObject> radiations;
     [SerializeField] Text food, water;
     void Start()
@@ -24,20 +24,30 @@ public class ShipOnPlanet : MonoBehaviour
         transform = GetComponent<Transform>();
         Save.Load();
 
-        /*radiations = new List<GameObject> { radiationOrigin };
-        for (int i = 0; i < 11; i++)
+        for (int i = -20; i <= 20; i += 10)
         {
-            radiations.Add(Instantiate(radiationOrigin));
+            for (int j = -20; j <= 20; j += 10)
+            {
+                if (!(i == -20 && j == -20 || i == 0 && j == -20 || i == 0 && j == 0))
+                {
+                    int wat = ProceduralGeneration.instance.Next();
+                    switch(wat % 3)
+                    {
+                        case 0:
+                            Instantiate(radiationOrigin, new Vector3(i, 0.5f, j), new Quaternion(0,0,0,0));
+                            break;
+                        case 1:
+                            Instantiate(enemyor, new Vector3(i, 0.5f, j), new Quaternion(0,0,0,0));
+                            break;
+                        case 2:
+                            Resource res =  Instantiate(resor, new Vector3(i, 0.5f, j), new Quaternion(0,0,0,0))
+                                .GetComponent<Resource>();
+                            res.water = wat % 2 == 0;
+                            break;
+                    }
+                }
+            }
         }
-        for (int i = 0; i < 12; i++)
-        {
-            int x = ProceduralGeneration.instance.Next();
-            int y = ProceduralGeneration.instance.Next();
-            if (x % 5 == 0 && y % 5 == 0)
-                continue;
-            radiations[i].transform.position = new Vector3((x % 5 - 2) * 10, 0.5f, (y % 5 - 2) * 10);
-            //radiations[i].GetComponentInChildren<RadiationSource>().CreateTexture();
-        }*/
 
         UpdateWaterFood();
     }
