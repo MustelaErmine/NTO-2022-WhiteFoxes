@@ -32,7 +32,7 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    void PlayFirstEnterCutscene()
+    public void PlayFirstEnterCutscene()
     {
         SceneManager.LoadScene("FirstEnterCutscene");
     }

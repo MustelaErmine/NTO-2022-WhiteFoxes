@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     float health = 100f;
     public ShipOnPlanet ship;
     public Material normal, hurt, rad;
+    public AudioClip deathClip;
     public Mesh mnormal, mhurt, mrad;
     void Start()
     {
@@ -29,6 +30,7 @@ public class Enemy : MonoBehaviour
         
         if (health < 0f)
         {
+            GetComponent<AudioSource>().PlayOneShot(deathClip);
             Destroy(gameObject);
         }
     }
