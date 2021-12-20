@@ -18,6 +18,8 @@ public class ShipOnPlanet : MonoBehaviour
     List<GameObject> radiations;
     [SerializeField] Text food, water;
     [SerializeField] Mesh coal;
+    [SerializeField] AudioClip notif;
+
     void Start()
     {
         health = maxHealth;
@@ -105,6 +107,7 @@ public class ShipOnPlanet : MonoBehaviour
     {
         messageBox.gameObject.SetActive(true);
         messageBox.GetChild(1).GetComponent<Text>().text = text;
+        messageBox.GetComponent<AudioSource>().PlayOneShot(notif);
         enabled = false;
         rigidbody.velocity = Vector3.zero;
         StartCoroutine(WaitToButton(action));

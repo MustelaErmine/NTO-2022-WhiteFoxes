@@ -67,24 +67,34 @@ public class Detail : MonoBehaviour
         if (work)
         {
             work = false;
-            InvokeRepeating("Shot", 2f, 2f);
+            if (_detailType == ItemType.DetailFire)
+                StartCoroutine(Shot(2f, 2f));
+            else if (_detailType == ItemType.DetailIce)
+                StartCoroutine(Shot(2f, 2f));
+            else if (_detailType == ItemType.DetailRadiation)
+                StartCoroutine(Shot(2f, 1.5f));
         }
     }
-    void Shot()
+    IEnumerator Shot(float arr, float sec)
     {
-        Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
-        Enemy minenemy = null;
-        float mindist = Mathf.Pow(10, 9);
-        foreach(Enemy enemy in enemies)
+        while (true)
         {
-            if (mindist > (transform.position - enemy.transform.position).magnitude)
+            yield return new WaitForSeconds(sec);
+            Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
+            Enemy minenemy = null;
+            float mindist = Mathf.Pow(10, 9);
+            foreach (Enemy enemy in enemies)
             {
-                mindist = (transform.position - enemy.transform.position).magnitude;
-                minenemy = enemy;
+                if (mindist > (transform.position - enemy.transform.position).magnitude)
+                {
+                    mindist = (transform.position - enemy.transform.position).magnitude;
+                    minenemy = enemy;
+                }
             }
+            GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 1, 0), new Quaternion(0, 0, 0, 0));
+            bul.GetComponent<Bullet>().target = minenemy;
+            bul.GetComponent<Bullet>().arr = arr;
+            GetComponent<AudioSource>().PlayOneShot(mainclip);
         }
-        GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 1, 0), new Quaternion(0,0,0,0));
-        bul.GetComponent<Bullet>().target = minenemy;
-        GetComponent<AudioSource>().PlayOneShot(mainclip);
     }
 }

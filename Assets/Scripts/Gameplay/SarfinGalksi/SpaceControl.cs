@@ -15,6 +15,7 @@ public class SpaceControl : MonoBehaviour
     public static SpaceControl instance;
     public RectTransform messageBox;
     [SerializeField] Text food, water, years, invent;
+    [SerializeField] AudioClip notif;
 
     public float energy = 0;
     public float hyperFuel = 0;
@@ -185,6 +186,7 @@ public class SpaceControl : MonoBehaviour
     {
         messageBox.gameObject.SetActive(true);
         messageBox.GetChild(1).GetComponent<Text>().text = text;
+        messageBox.GetComponent<AudioSource>().PlayOneShot(notif);
         ship.enabled = false;
         ship.rigidbody.velocity = Vector3.zero;
         StartCoroutine(WaitToButton(action));

@@ -11,6 +11,7 @@ public class Session
 
     public Dictionary<Skills, int> skills;
     public List<ItemType> inventory;
+    public List<Item> cases;
     public List<ShipDetail> shipDetails;
 
     public Session()
@@ -27,6 +28,7 @@ public class Session
         };
         inventory = new List<ItemType> {ItemType.Food, ItemType.Water, ItemType.Fuel};
         shipDetails = new List<ShipDetail>();
+        cases = new List<Item>();
     }
 
     public void NextStep()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -13,7 +14,11 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
     public ItemType detailTypeUse = ItemType.Bonus;
     public ScrollRect scroll;
     public GameObject scrollPat;
+    public Text[] texts;
+    public CaseType[] caseTypes = new CaseType[4] { CaseType.Opened, CaseType.Simple, CaseType.Unsimple, CaseType.Rare};
     Transform scrollParent;
+    public RectTransform messageBox, casesPanel;
+    public AudioClip notif;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -53,14 +58,44 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
 
     void Start()
     {
-        scrollParent = scroll.transform.GetChild(0).GetChild(0);
-        UpdateItems();
         ShipDetail[] list = new ShipDetail[Save.instance.session.shipDetails.Count];
         Save.instance.session.shipDetails.CopyTo(list);
         Save.Load();
+        scrollParent = scroll.transform.GetChild(0).GetChild(0);
+        UpdateItems();
         foreach (ShipDetail item in list)
         {
             CreateDetail(item.Position, item.Rotation, item.item);
+        }
+        UpdateCaseAmounts();
+    }
+
+    void UpdateCaseAmounts()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            texts[i].text = Save.instance.session.cases.FindAll((Item item) => item.caseType == caseTypes[i]).Count.ToString();
+        }
+    }
+    public void OpenCaseType(int type)
+    {
+        Item item = null;
+        foreach(Item i in Save.instance.session.cases)
+        {
+            if (i.caseType == caseTypes[type])
+            {
+                item = i;
+                break;
+            }
+        }
+        if (item != null)
+        {
+            Save.instance.session.cases.Remove(item);
+            ShowMessage("Вам выпал: " + item.caseItem.ToString(), ()=> {
+                casesPanel.gameObject.SetActive(false);
+                Save.instance.session.inventory.Add(item.caseItem);
+                UpdateCaseAmounts();
+            });
         }
     }
 
@@ -74,7 +109,6 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
         {
             if (new List<ItemType> { ItemType.DetailFire, ItemType.DetailIce, ItemType.DetailRadiation }.Contains(item))
             {
-                //print(item);
                 GameObject itemBtn = Instantiate(scrollPat, scrollParent);
                 itemBtn.GetComponentInChildren<Text>().text = item.ToString();
                 Button btn = itemBtn.GetComponent<Button>();
@@ -118,5 +152,21 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
     {
         Save.instance.session.NextStep();
         UnityEngine.SceneManagement.SceneManager.LoadScene("PlanetChoice");
+    }
+    public void ShowMessage(string text, Action action)
+    {
+        messageBox.gameObject.SetActive(true);
+        messageBox.GetChild(1).GetComponent<Text>().text = text;
+        messageBox.GetComponent<AudioSource>().PlayOneShot(notif);
+        StartCoroutine(WaitToButton(action));
+    }
+    public IEnumerator WaitToButton(Action action)
+    {
+        while (!Input.GetKeyDown(KeyCode.C))
+            yield return null;
+        messageBox.gameObject.SetActive(false);
+        enabled = true;
+        yield return new WaitForSeconds(0.01f);
+        action?.Invoke();
     }
 }

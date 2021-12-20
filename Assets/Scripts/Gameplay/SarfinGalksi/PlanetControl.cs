@@ -109,7 +109,7 @@ public class PlanetControl : MonoBehaviour
             {
                 if (item.type == ItemType.Case)
                 {
-                    Save.instance.session.inventory.Add(item.caseItem);
+                    Save.instance.session.cases.Add(item);
                 }
                 else
                 {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public Enemy target;
+    public float arr;
     void Update()
     {
         if (target != null)
@@ -15,7 +16,7 @@ public class Bullet : MonoBehaviour
             }
             else
             {
-                target.Hurt();
+                target.Hurt(arr);
                 Destroy(gameObject);
             }
         } 

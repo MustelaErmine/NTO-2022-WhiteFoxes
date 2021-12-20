@@ -22,9 +22,9 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
     }
-    public void Hurt()
+    public void Hurt(float arr)
     {
-        health -= 7f;
+        health -= arr * 2;
         StartCoroutine(Hurted());
         
         if (health < 0f)
