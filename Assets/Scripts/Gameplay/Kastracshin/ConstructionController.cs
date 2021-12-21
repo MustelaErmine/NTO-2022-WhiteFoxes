@@ -91,7 +91,7 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
         if (item != null)
         {
             Save.instance.session.cases.Remove(item);
-            ShowMessage("Вам выпал: " + item.caseItem.ToString(), ()=> {
+            ShowMessage("Вам выпал: " + item.caseItem.ItemToString(), ()=> {
                 casesPanel.gameObject.SetActive(false);
                 Save.instance.session.inventory.Add(item.caseItem);
                 UpdateCaseAmounts();
@@ -110,7 +110,7 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
             if (new List<ItemType> { ItemType.DetailFire, ItemType.DetailIce, ItemType.DetailRadiation }.Contains(item))
             {
                 GameObject itemBtn = Instantiate(scrollPat, scrollParent);
-                itemBtn.GetComponentInChildren<Text>().text = item.ToString();
+                itemBtn.GetComponentInChildren<Text>().text = item.ItemToString();
                 Button btn = itemBtn.GetComponent<Button>();
                 btn.onClick.AddListener(() =>
                 {

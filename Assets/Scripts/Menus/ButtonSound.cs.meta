@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: e9dd2178c43ebff4f86d2527e02eca34
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - btnclp: {fileID: 8300000, guid: 6c18dbc1f35a5ca4483d0e2714783ed4, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

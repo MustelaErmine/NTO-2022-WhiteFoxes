@@ -57,6 +57,8 @@
     <Compile Include="Assets\Scripts\Globals\Save.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\SpaceControl.cs" />
     <Compile Include="Assets\Scripts\Globals\Session.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Radiation\Stand.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Radiation\Resource.cs" />
     <Compile Include="Assets\Scripts\Menus\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Kastracshin\Detail.cs" />
     <Compile Include="Assets\Scripts\Globals\ItemType.cs" />
@@ -68,17 +70,16 @@
     <Compile Include="Assets\Scripts\Menus\FirstEnterCutscene.cs" />
     <Compile Include="Assets\Scripts\Globals\ShipDetail.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\PlanetControl.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Radiation\Bullet.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\RadiationTesting.cs" />
     <Compile Include="Assets\Scripts\Globals\Item.cs" />
     <Compile Include="Assets\Scripts\Globals\CaseType.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\ArrowToTarget.cs" />
     <Compile Include="Assets\Scripts\Globals\ProceduralGeneration.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\ShipOnPlanet.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\Kastracshin\ConstructionController.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\Radiation\Stand.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\Enemy.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\Radiation\Bullet.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\Radiation\Resource.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Kastracshin\ConstructionController.cs" />
+    <Compile Include="Assets\Scripts\Menus\ButtonSound.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

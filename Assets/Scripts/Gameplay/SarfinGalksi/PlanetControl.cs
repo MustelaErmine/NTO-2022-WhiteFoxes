@@ -194,7 +194,7 @@ public class PlanetControl : MonoBehaviour
     public static string GetNameOfItem(Item item)
     {
         if (item.type == ItemType.Case)
-            return item.type.ToString() + " " + item.caseType.ToString();
-        return item.type.ToString();
+            return item.type.ItemToString() + " " + item.caseType.ToString();
+        return item.type.ItemToString();
     }
 }

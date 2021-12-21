@@ -26,7 +26,7 @@ public class Session
             {Skills.TimeSpeedCapacity, 10},
             {Skills.Monitor, 2}
         };
-        inventory = new List<ItemType> {ItemType.Food, ItemType.Water, ItemType.Fuel};
+        inventory = new List<ItemType> {};
         shipDetails = new List<ShipDetail>();
         cases = new List<Item>();
     }

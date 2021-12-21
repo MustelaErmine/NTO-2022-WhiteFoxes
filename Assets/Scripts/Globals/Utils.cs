@@ -18,4 +18,37 @@ public static class Utils
         newPos = new Vector2(newPos.x / Screen.width * 1280, newPos.y / Screen.height * 720);
         return newPos;
     }
+
+    public static string ItemToString(this ItemType item)
+    {
+        switch (item)
+        {
+            case ItemType.Food:
+                return "Еда";
+            case ItemType.Water:
+                return "Вода";
+            case ItemType.SpecialDetail:
+                return "Спец. деталь";
+            case ItemType.Bonus:
+                return "Бонус";
+            case ItemType.Case:
+                return "Кейс";
+            case ItemType.DetailBook:
+                return "Записка";
+            case ItemType.DetailFire:
+                return "Огненная пушка";
+            case ItemType.DetailIce:
+                return "Электропушка";
+            case ItemType.DetailRadiation:
+                return "Радиационная пушка";
+            case ItemType.Drawing:
+                return "Чертеж";
+            case ItemType.Fuel:
+                return "Топливо";
+            case ItemType.Skin:
+                return "Скин";
+            default:
+                return "Error";
+        }
+    }
 }

@@ -15,8 +15,7 @@ public class ShipOnPlanet : MonoBehaviour
     new Transform transform;
     bool flagRd = false;
     [SerializeField] GameObject radiationOrigin, enemyor, resor;
-    List<GameObject> radiations;
-    [SerializeField] Text food, water;
+    [SerializeField] Text food, water, years;
     [SerializeField] Mesh coal;
     [SerializeField] AudioClip notif;
 
@@ -59,9 +58,9 @@ public class ShipOnPlanet : MonoBehaviour
 
     internal void UpdateWaterFood()
     {
-        food.text = "Еда: " + Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
-        water.text = "Вода: " + Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count
-             .ToString();
+        food.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
+        water.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count.ToString();
+        years.text = Save.instance.session.years.ToString();
     }
 
     void LateUpdate()

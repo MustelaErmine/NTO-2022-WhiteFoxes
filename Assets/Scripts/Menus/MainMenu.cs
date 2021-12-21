@@ -7,10 +7,16 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] Text record;
+    static bool createdSrc = false;
     public void Start()
     {
         Save.Load();
         record.text = "Ваш рекорд по световым годам: " + Save.instance.record.ToString();
+        if (!createdSrc)
+        {
+            DontDestroyOnLoad(GameObject.Find("BtnSource"));
+            createdSrc = true;
+        }
     }
 
     public void EnterGame()
