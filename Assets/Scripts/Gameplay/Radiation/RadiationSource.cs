@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ public class RadiationSource : MonoBehaviour
     void Start()
     {
         texture = new Texture2D(width, height);
-        texture.filterMode = FilterMode.Trilinear;
+        texture.filterMode = FilterMode.Point;
         transform = GetComponent<Transform>();
         transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTexture = texture;
         lastPosition = null;
@@ -31,7 +32,11 @@ public class RadiationSource : MonoBehaviour
 
     void FixedUpdate()
     {
-        scale = quad.localScale.x * transform.localScale.x * transform.parent.localScale.x;
+        scale = quad.localScale.x * transform.localScale.x;
+        if (transform.parent != null)
+        {
+            scale *= transform.parent.localScale.x;
+        }
         rradius = scale / 2;
         if (transform.position != lastPosition && !time.HasValue)
             CreateTexture();
@@ -142,7 +147,6 @@ public class RadiationSource : MonoBehaviour
                 texture.SetPixel(i, j, new Color(0, o, 0, o));
             }
         }
-
         texture.Apply();
     }
     private void OnTriggerStay(Collider other)

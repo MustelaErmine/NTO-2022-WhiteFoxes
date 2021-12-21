@@ -65,45 +65,12 @@ public class PlanetControl : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        string chal = "";
-        switch (challenge)
-        {
-            case 0:
-                chal = "Все хорошо, вашей безопасности ничего не угрожает.";
-                break;
-            case 1:
-                chal = "На планете природные катоклизмы. Вам нужны: 2 еды, 1 вода и 1 топливо";
-                break;
-            case 2:
-                chal = "На планете на вас напали. Вам нужен корабль мощностью 5.";
-                break;
-        }
-        if (other.tag == "Player")
-            SpaceControl.ShowMessageStatic(chal, Landing);
+        Landing();
     }
 
     void Landing()
     {
-        print("Landing");
-        switch (challenge)
-        {
-            case 0:
-                break;
-            case 1:
-                foreach (ItemType item in new ItemType[] { ItemType.Food, ItemType.Fuel, ItemType.Water, ItemType.Food })
-                    if (!Save.instance.session.inventory.Contains(item))
-                    {
-                        SpaceControl.Die();
-                        return;
-                    }
-                    else
-                        Save.instance.session.inventory.Remove(item);
-                break;
-            case 2:
-                //ToDo: check speisheep power
-                break;
-        }
-        SpaceControl.ShowMessageStatic("Все хорошо, вы выжили и можете отправляться в следующее приключение.", () =>
+        SpaceControl.ShowMessageStatic("Вы высаживаетесь на эту планету", () =>
         {
             foreach (Item item in items)
             {

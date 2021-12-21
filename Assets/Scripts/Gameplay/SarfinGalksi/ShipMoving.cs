@@ -21,6 +21,8 @@ public class ShipMoving : MonoBehaviour
     const float maxVerticalSpeed = Mathf.PI / 2;
     const float maxHorizontalSpeed = Mathf.PI / 2;
 
+    Vector3 speed = Vector3.forward * 150f; 
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -87,6 +89,6 @@ public class ShipMoving : MonoBehaviour
             new Vector3(0, -maxHorizontalSpeed, 0)), Mathf.Sin(leftWeight));
         rigidbody.angularVelocity = new_angular_velocity;
 
-        rigidbody.velocity = transform.TransformDirection(Vector3.forward * 100f);
+        rigidbody.velocity = transform.TransformDirection(speed);
     }
 }

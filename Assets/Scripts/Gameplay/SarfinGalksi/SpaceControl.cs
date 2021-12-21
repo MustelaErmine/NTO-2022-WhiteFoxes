@@ -50,6 +50,9 @@ public class SpaceControl : MonoBehaviour
         energy = 1;
         hyperFuel = 1;
 
+        food.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
+        water.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count.ToString();
+        years.text = Save.instance.session.years.ToString();
         try
         {
             for (int i = 0; i < m_water; i++) 
@@ -209,9 +212,9 @@ public class SpaceControl : MonoBehaviour
     }
     public static void Die(string text= "Вы умерли от недостатка ресурсов")
     {
+        Save.Die();
         ShowMessageStatic(text, () =>
         {
-            Save.Die();
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         });
     }

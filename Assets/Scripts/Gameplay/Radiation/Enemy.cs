@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    float health = 100f;
+    float health = 35f;
     public ShipOnPlanet ship;
     public Material normal, hurt, rad;
     public AudioClip deathClip;
@@ -25,7 +25,8 @@ public class Enemy : MonoBehaviour
     }
     public void Hurt(float arr)
     {
-        health -= arr * 2;
+        health -= arr;
+        print(health);
         StartCoroutine(Hurted());
         
         if (health < 0f)

@@ -68,11 +68,11 @@ public class Detail : MonoBehaviour
         {
             work = false;
             if (_detailType == ItemType.DetailFire)
-                StartCoroutine(Shot(2f, 2f));
+                StartCoroutine(Shot(7f, 1f));
             else if (_detailType == ItemType.DetailIce)
-                StartCoroutine(Shot(2f, 2f));
+                StartCoroutine(Shot(7f, 2f));
             else if (_detailType == ItemType.DetailRadiation)
-                StartCoroutine(Shot(2f, 1.5f));
+                StartCoroutine(Shot(7f, 1.5f));
         }
     }
     IEnumerator Shot(float arr, float sec)
