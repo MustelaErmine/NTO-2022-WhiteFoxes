@@ -10,38 +10,28 @@ public class PlanetControl : MonoBehaviour
         _generationNumber = ProceduralGeneration.instance.Next();
         type = _generationNumber % 3;
 
-        //Temp
         GetComponentInChildren<MeshFilter>().mesh = planetTypes[type];
-        //EndTemp
         float delta = _generationNumber % 2003 + 2000;
         Vector3 direction = new Vector3(_generationNumber % 137, _generationNumber % 139, _generationNumber % 149);
         direction = direction.normalized;
 
         transform.Translate(direction * delta);
 
-        int challengeGen = _generationNumber % 101;
-        if (challengeGen < 4)
-            challenge = 0;
-        else if (challengeGen < 52)
-            challenge = 1;
-        else
-            challenge = 2;
-
         string itemsText = "";
         itemsGenerations = new int[4] { 0, 0, 0, 0 };
         items = new List<Item>();
-        for (int i = 0; i < Mathf.Min(4, Save.instance.session.skills[Skills.Monitor]); i++)
+        for (int i = 0; i < 4; i++)
         {
             itemsGenerations[i] = ProceduralGeneration.instance.Next();
             items.Add(GetNumberedItem(itemsGenerations[i], 13));
-            itemsText += GetNameOfItem(items[i]) + "\n";
+            if (i < Save.instance.session.skills[Skills.Monitor])
+                itemsText += GetNameOfItem(items[i]) + "\n";
         }
 
         myPanel.GetChild(1).GetComponent<Text>().text += itemsText;
     }
     int _generationNumber = 0;
     int type = 0;
-    int challenge = 0;
 
     public RectTransform myPanel;
     new Rigidbody rigidbody;

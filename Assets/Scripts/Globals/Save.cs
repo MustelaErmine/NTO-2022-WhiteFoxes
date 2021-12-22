@@ -56,8 +56,11 @@ public class Save
     }
     public static void Die()
     {
-        instance.record = Mathf.Max(instance.record, instance.session.years);
-        instance.session = null;
-        Save.Keep();
+        if (instance.session != null)
+        {
+            instance.record = Mathf.Max(instance.record, instance.session.years);
+            instance.session = null;
+            Save.Keep();
+        }
     }
 }

@@ -23,7 +23,7 @@ public class ShipMoving : MonoBehaviour
 
     Vector3 speed = Vector3.forward * 150f; 
 
-    void Start()
+    void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();

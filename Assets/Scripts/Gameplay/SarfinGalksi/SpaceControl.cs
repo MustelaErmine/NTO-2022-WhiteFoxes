@@ -20,8 +20,6 @@ public class SpaceControl : MonoBehaviour
     public float energy = 0;
     public float hyperFuel = 0;
 
-    const int m_water = 1, m_food = 1;
-
     void Awake()
     {
         instance = this;
@@ -32,7 +30,10 @@ public class SpaceControl : MonoBehaviour
             Save.instance.session.inventory.Add(ItemType.Water);
             Save.instance.session.inventory.Add(ItemType.Food);
             Save.instance.session.inventory.Add(ItemType.Fuel);
-        } 
+        }
+
+        foreach (ItemType t in Save.instance.session.inventory)
+            print(t.ItemToString());
         Save.instance.session.step += 1;
         Save.Keep();
         foreach (RectTransform rectTransform in planetsPanels)
@@ -53,27 +54,6 @@ public class SpaceControl : MonoBehaviour
         food.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
         water.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count.ToString();
         years.text = Save.instance.session.years.ToString();
-        try
-        {
-            for (int i = 0; i < m_water; i++) 
-            {
-                if (!Save.instance.session.inventory.Remove(ItemType.Water))
-                    throw new Exception();
-            }
-            for (int i = 0; i < m_food; i++) 
-            {
-                if (!Save.instance.session.inventory.Remove(ItemType.Food))
-                    throw new Exception();
-            }
-        } 
-        catch
-        {
-            Die("У вас недостаточно ресурсов для продолжения приключения");
-        }
-
-        food.text = Save.instance.session.inventory.FindAll((ItemType t)=> t == ItemType.Food).Count.ToString();
-        water.text = Save.instance.session.inventory.FindAll((ItemType t)=> t == ItemType.Water).Count.ToString();
-        years.text = Save.instance.session.years.ToString();
         string inv = "";
         foreach(ItemType item in Save.instance.session.inventory)
         {
@@ -90,6 +70,27 @@ public class SpaceControl : MonoBehaviour
         {
             CreateRandomEvent();
         }
+        try
+        {
+            for (int i = 0; i < Mathf.CeilToInt((float)Save.instance.session.step / 2f); i++)
+            {
+                if (!Save.instance.session.inventory.Remove(ItemType.Water))
+                    throw new Exception();
+            }
+            for (int i = 0; i < Mathf.CeilToInt((float)Save.instance.session.step / 2f); i++)
+            {
+                if (!Save.instance.session.inventory.Remove(ItemType.Food))
+                    throw new Exception();
+            }
+        }
+        catch
+        {
+            Die("У вас недостаточно ресурсов для продолжения приключения");
+        }
+
+        food.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
+        water.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count.ToString();
+        years.text = Save.instance.session.years.ToString();
     }
 
     void Update()
@@ -212,9 +213,9 @@ public class SpaceControl : MonoBehaviour
     }
     public static void Die(string text= "Вы умерли от недостатка ресурсов")
     {
-        Save.Die();
         ShowMessageStatic(text, () =>
         {
+            Save.Die();
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         });
     }

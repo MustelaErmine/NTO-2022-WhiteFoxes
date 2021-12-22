@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    float health = 35f;
+    float health = 45f;
+    float timer = 1f;
     public ShipOnPlanet ship;
     public Material normal, hurt, rad;
     public AudioClip deathClip;
@@ -42,5 +43,17 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(1f);
         GetComponent<MeshRenderer>().material = normal;
         GetComponent<MeshFilter>().mesh = mnormal;
+    }
+    private void Update()
+    {
+        timer = Mathf.Min(1f, timer + 1f * Time.deltaTime);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player" && 1f - timer < 1e-5 && transform.childCount == 1)
+        {
+            other.GetComponent<ShipOnPlanet>().ApplyRadiation(20f);
+            timer = 0f;
+        }
     }
 }

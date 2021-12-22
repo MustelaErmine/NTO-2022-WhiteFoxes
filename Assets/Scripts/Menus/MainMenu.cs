@@ -33,7 +33,6 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
-            Save.instance.session = new Session();
             SceneManager.LoadScene("PlanetChoice");
         }
     }

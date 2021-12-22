@@ -96,9 +96,9 @@ public class ShipOnPlanet : MonoBehaviour
     }
     public void Die()
     {
+        Save.Die();
         ShowMessage("Вы умерли от недостатка здоровья", () =>
         {
-            Save.Die();
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         });
     }

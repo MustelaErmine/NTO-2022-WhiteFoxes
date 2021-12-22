@@ -37,6 +37,7 @@ public class RadiationSource : MonoBehaviour
         {
             scale *= transform.parent.localScale.x;
         }
+        print(scale);
         rradius = scale / 2;
         if (transform.position != lastPosition && !time.HasValue)
             CreateTexture();
@@ -156,7 +157,8 @@ public class RadiationSource : MonoBehaviour
             Ray ray = new Ray(transform.position, other.transform.position - transform.position);
             RaycastHit[] hits = Physics.RaycastAll(ray, (other.transform.position - transform.position).magnitude, mask);
             float mul = 1f - (other.transform.position - transform.position).magnitude / rradius;
-            foreach(RaycastHit hit in hits)
+            print(mul);
+            foreach (RaycastHit hit in hits)
             {
                 mul *= 1f - hit.transform.GetComponent<AntiRadiationWall>().antiEffect;
             }
