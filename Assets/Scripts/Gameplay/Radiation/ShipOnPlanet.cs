@@ -18,7 +18,9 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] Text food, water, years;
     [SerializeField] Mesh coal;
     [SerializeField] AudioClip notif;
-
+    [SerializeField] Texture[] floorTiles;
+    [SerializeField] MeshRenderer floor;
+     
     void Start()
     {
         health = maxHealth;
@@ -54,6 +56,8 @@ public class ShipOnPlanet : MonoBehaviour
         }
 
         UpdateWaterFood();
+
+        floor.material.mainTexture = floorTiles[PlanetControl.useType];
     }
 
     internal void UpdateWaterFood()

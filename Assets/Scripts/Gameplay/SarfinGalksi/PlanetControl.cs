@@ -8,9 +8,18 @@ public class PlanetControl : MonoBehaviour
     public void Generate()
     {
         _generationNumber = ProceduralGeneration.instance.Next();
-        type = _generationNumber % 3;
+        type = _generationNumber % 5;
 
         GetComponentInChildren<MeshFilter>().mesh = planetTypes[type];
+        GetComponentInChildren<MeshRenderer>().material.mainTexture = planetTexts[type];
+        if (type > 2)
+        {
+            transform.GetChild(0).localScale = new Vector3(7.5f, 7.5f, 7.5f);
+        }
+        else
+        {
+            transform.GetChild(0).localScale = new Vector3(20f, 20f, 20f);
+        }
         float delta = _generationNumber % 2003 + 2000;
         Vector3 direction = new Vector3(_generationNumber % 137, _generationNumber % 139, _generationNumber % 149);
         direction = direction.normalized;
@@ -36,8 +45,10 @@ public class PlanetControl : MonoBehaviour
     public RectTransform myPanel;
     new Rigidbody rigidbody;
     public int[] itemsGenerations = new int[4];
+    public static int useType;
     List<Item> items;
     [SerializeField] Mesh[] planetTypes;
+    [SerializeField] Texture[] planetTexts;
      
     new Transform transform
     {
@@ -73,6 +84,7 @@ public class PlanetControl : MonoBehaviour
                     Save.instance.session.inventory.Add(item.type);
                 }
             }
+            useType = type;
             UnityEngine.SceneManagement.SceneManager.LoadScene("OnPlanet");
         });
     }

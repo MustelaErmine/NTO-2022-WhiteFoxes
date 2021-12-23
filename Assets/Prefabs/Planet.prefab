@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 6473461198678180391}
   - component: {fileID: 6473461198678180384}
   - component: {fileID: 6473461198678180385}
-  - component: {fileID: 6473461198678180390}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -121,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 6473461198678180388}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalScale: {x: 7.5, y: 7.5, z: 7.5}
   m_Children: []
   m_Father: {fileID: 6473461199816715039}
   m_RootOrder: 0
@@ -133,7 +132,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6473461198678180388}
-  m_Mesh: {fileID: -2432090755550338912, guid: 1bfcce1bbf9fe394fabc5a51e9b8d456, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: cb784fd5ee1e7e44ba4314b7acf41167, type: 3}
 --- !u!23 &6473461198678180385
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -175,19 +174,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6473461198678180390
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6473461198678180388}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.8
-  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &6473461199816715037
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +185,7 @@ GameObject:
   - component: {fileID: 6473461199816715039}
   - component: {fileID: 6473461199816715036}
   - component: {fileID: 5049465940807338750}
+  - component: {fileID: 6928802210598143192}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Untagged
@@ -240,6 +227,14 @@ MonoBehaviour:
   - {fileID: -2432090755550338912, guid: 1bfcce1bbf9fe394fabc5a51e9b8d456, type: 3}
   - {fileID: -2432090755550338912, guid: a2faf44c8aba2a74c80fa17a2b5915b6, type: 3}
   - {fileID: -2432090755550338912, guid: 05800fc11bf4c81428d3862ea7e2d65a, type: 3}
+  - {fileID: -2432090755550338912, guid: cb784fd5ee1e7e44ba4314b7acf41167, type: 3}
+  - {fileID: -2432090755550338912, guid: 503eb0a5d7a9c85448fe283e4e5cec54, type: 3}
+  planetTexts:
+  - {fileID: 2800000, guid: cd597381e512a1e409b697f34842a55e, type: 3}
+  - {fileID: 2800000, guid: cd597381e512a1e409b697f34842a55e, type: 3}
+  - {fileID: 2800000, guid: cd597381e512a1e409b697f34842a55e, type: 3}
+  - {fileID: 2800000, guid: aa89a7a1466db504bb88a800501f5553, type: 3}
+  - {fileID: 2800000, guid: e811bebe215096a459a326ebbdba7e19, type: 3}
 --- !u!135 &5049465940807338750
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -253,3 +248,16 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 50
   m_Center: {x: 0, y: 25, z: 0}
+--- !u!135 &6928802210598143192
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6473461199816715037}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 36
+  m_Center: {x: 0, y: 30, z: 0}
