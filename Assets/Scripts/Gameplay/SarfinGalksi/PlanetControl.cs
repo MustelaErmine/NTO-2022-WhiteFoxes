@@ -8,7 +8,7 @@ public class PlanetControl : MonoBehaviour
     public void Generate()
     {
         _generationNumber = ProceduralGeneration.instance.Next();
-        type = _generationNumber % 5;
+        type = _generationNumber % 4;
 
         GetComponentInChildren<MeshFilter>().mesh = planetTypes[type];
         GetComponentInChildren<MeshRenderer>().material.mainTexture = planetTexts[type];
@@ -18,7 +18,7 @@ public class PlanetControl : MonoBehaviour
         }
         else
         {
-            transform.GetChild(0).localScale = new Vector3(20f, 20f, 20f);
+            transform.GetChild(0).localScale = new Vector3(7.5f, 7.5f, 7.5f);
         }
         float delta = _generationNumber % 2003 + 2000;
         Vector3 direction = new Vector3(_generationNumber % 137, _generationNumber % 139, _generationNumber % 149);
@@ -73,8 +73,13 @@ public class PlanetControl : MonoBehaviour
     {
         SpaceControl.ShowMessageStatic("Вы высаживаетесь на эту планету", () =>
         {
-            foreach (Item item in items)
+            for (int i = 0; i < 4; i++)
             {
+                Item item = items[i];
+                if (item == null)
+                {
+                    continue;
+                }
                 if (item.type == ItemType.Case)
                 {
                     Save.instance.session.cases.Add(item);

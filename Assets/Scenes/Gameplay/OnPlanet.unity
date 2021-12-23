@@ -2924,7 +2924,6 @@ MonoBehaviour:
   floorTiles:
   - {fileID: 2800000, guid: cdf6c53f7b7dd6e4087bd9786412523f, type: 3}
   - {fileID: 2800000, guid: cdf6c53f7b7dd6e4087bd9786412523f, type: 3}
-  - {fileID: 2800000, guid: cdf6c53f7b7dd6e4087bd9786412523f, type: 3}
   - {fileID: 2800000, guid: af3fee36769030540b9a0749d8cf6a12, type: 3}
   - {fileID: 2800000, guid: 807ab40c8b6ee6142a6e799a60da0199, type: 3}
   floor: {fileID: 1801792793}
@@ -6581,8 +6580,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 2.8, z: 3.6}
-  m_Center: {x: -0.049999952, y: 1.4, z: 0}
+  m_Size: {x: 1.7452843, y: 1.1732622, z: 1.8127095}
+  m_Center: {x: -0.0654819, y: 0.5866311, z: -0.01950413}
 --- !u!1 &1718392933
 GameObject:
   m_ObjectHideFlags: 0
