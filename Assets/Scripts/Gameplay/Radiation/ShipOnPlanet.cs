@@ -20,44 +20,53 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] AudioClip notif;
     [SerializeField] Texture[] floorTiles;
     [SerializeField] MeshRenderer floor;
-     
+    [SerializeField] Mesh[] crystals;
+    [SerializeField] Texture[] crystalsTexts;
+    [SerializeField] MeshRenderer crystal;
+    public bool canMove = true;
+
     void Start()
     {
         health = maxHealth;
         rigidbody = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
         Save.Load();
-
-        for (int i = -20; i <= 20; i += 10)
+        List<int> map = new List<int>(25);
+        for (int i = 0; i < 25; i++)
         {
-            for (int j = -20; j <= 20; j += 10)
+            if (i < 5)
+                map.Add(2);
+            else if (i < 15)
+                map.Add(1);
+            else
+                map.Add(0);
+        }
+        map.Shuffle();
+        for (int i = 1; i < 24; i++)
+        {
+            if (map[i] == 0)
+                continue;
+            int x = i % 5 * 10 - 20, y = i / 5 * 10 - 20;
+            GameObject orig = null;
+            if (map[i] == 2)
+                orig = resor;
+            else
+                orig = radiationOrigin;
+            GameObject gm = Instantiate(orig, new Vector3(x, 0.5f, y), new Quaternion());
+            if (map[i] == 2)
             {
-                if (!(i == -20 && j == -20 || i == 0 && j == -20 || i == 0 && j == 0))
-                {
-                    int wat = ProceduralGeneration.instance.Next();
-                    switch(wat % 3)
-                    {
-                        case 0:
-                            Instantiate(radiationOrigin, new Vector3(i, 0.5f, j), new Quaternion(0,0,0,0));
-                            break;
-                        case 1:
-                            Instantiate(enemyor, new Vector3(i, 0.5f, j), new Quaternion(0,0,0,0));
-                            break;
-                        case 2:
-                            Resource res =  Instantiate(resor, new Vector3(i, 0.5f, j), new Quaternion(0,0,0,0))
-                                .GetComponent<Resource>();
-                            res.water = wat % 2 == 0;
-                            if (!res.water)
-                                res.GetComponentInChildren<MeshFilter>().mesh = coal;
-                            break;
-                    }
-                }
+                gm.GetComponent<Resource>().Water = i % 2 == 0;
             }
         }
 
         UpdateWaterFood();
 
         floor.material.mainTexture = floorTiles[PlanetControl.useType];
+        crystal.material.mainTexture = crystalsTexts[PlanetControl.useType];
+        crystal.GetComponent<MeshFilter>().mesh = crystals[PlanetControl.useType];
+        enemyor.SetActive(false);
+
+        StartCoroutine(Enemies());
     }
 
     internal void UpdateWaterFood()
@@ -74,20 +83,23 @@ public class ShipOnPlanet : MonoBehaviour
         {
             flagRd = true;
             radiationOrigin.GetComponentInChildren<RadiationSource>().CreateTexture();
-            
+
         }
     }
     private void FixedUpdate()
     {
         Vector3 newVelocity = Vector3.zero;
-        if (Input.GetKey(KeyCode.W))
-            newVelocity.z += speed;
-        if (Input.GetKey(KeyCode.S))
-            newVelocity.z -= speed;
-        if (Input.GetKey(KeyCode.A))
-            newVelocity.x -= speed;
-        if (Input.GetKey(KeyCode.D))
-            newVelocity.x += speed;
+        if (canMove)
+        {
+            if (Input.GetKey(KeyCode.W))
+                newVelocity.z += speed;
+            if (Input.GetKey(KeyCode.S))
+                newVelocity.z -= speed;
+            if (Input.GetKey(KeyCode.A))
+                newVelocity.x -= speed;
+            if (Input.GetKey(KeyCode.D))
+                newVelocity.x += speed;
+        }
         rigidbody.velocity = newVelocity;
     }
     public void ApplyRadiation(float rad)
@@ -123,5 +135,35 @@ public class ShipOnPlanet : MonoBehaviour
         enabled = true;
         yield return new WaitForSeconds(0.01f);
         action?.Invoke();
+    }
+    public IEnumerator Enemies()
+    {
+        while (true)
+        {
+            int r = new System.Random().Next(0, 3);
+            float x = 0, y = 0;
+            if (r == 0)
+            {
+                x = 5;
+                y = 5;
+            }
+            else if (r == 1)
+            {
+                x = 5;
+                y = -5;
+            }
+            else if (r == 2)
+            {
+                x = -5;
+                y = 5;
+            }
+            else
+            {
+                x = -5;
+                y = -5;
+            }
+            Instantiate(enemyor, new Vector3(x, 0.5f, y), new Quaternion()).SetActive(true);
+            yield return new WaitForSeconds(2f);
+        }
     }
 }

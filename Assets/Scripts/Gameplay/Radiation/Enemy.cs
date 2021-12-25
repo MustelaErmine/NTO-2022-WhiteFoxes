@@ -10,9 +10,11 @@ public class Enemy : MonoBehaviour
     public Material normal, hurt, rad;
     public AudioClip deathClip;
     public Mesh mnormal, mhurt, mrad;
+    [SerializeField] AudioSource death;
     void Start()
     {
         StartCoroutine(Walk());
+        transform.GetChild(0).gameObject.SetActive(true);
     }
     IEnumerator Walk()
     {
@@ -32,17 +34,17 @@ public class Enemy : MonoBehaviour
         
         if (health < 0f)
         {
-            GetComponent<AudioSource>().PlayOneShot(deathClip);
+            death.PlayOneShot(deathClip);
             Destroy(gameObject);
         }
     }
     IEnumerator Hurted()
     {
-        GetComponent<MeshRenderer>().material = hurt;
-        GetComponent<MeshFilter>().mesh = mhurt;
+        transform.GetChild(0).GetComponent<MeshRenderer>().material = hurt;
+        transform.GetChild(0).GetComponent<MeshFilter>().mesh = mhurt;
         yield return new WaitForSeconds(1f);
-        GetComponent<MeshRenderer>().material = normal;
-        GetComponent<MeshFilter>().mesh = mnormal;
+        transform.GetChild(0).GetComponent<MeshRenderer>().material = normal;
+        transform.GetChild(0).GetComponent<MeshFilter>().mesh = mnormal;
     }
     private void Update()
     {
@@ -52,7 +54,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Player" && 1f - timer < 1e-5 && transform.childCount == 1)
         {
-            other.GetComponent<ShipOnPlanet>().ApplyRadiation(20f);
+            other.GetComponent<ShipOnPlanet>().ApplyRadiation(15f);
             timer = 0f;
         }
     }

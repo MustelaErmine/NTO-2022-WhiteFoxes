@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class Utils
 {
@@ -49,6 +50,20 @@ public static class Utils
                 return "Скин";
             default:
                 return "Error";
+        }
+    }
+
+    public static void Shuffle(this List<int> list)
+    {
+        List<(int, int)> rand = new List<(int, int)>(list.Count);
+        for (int i = 0; i < list.Count; i ++)
+        {
+            rand.Add((ProceduralGeneration.instance.Next(), list[i]));
+        }
+        rand.Sort();
+        for (int i = 0; i < list.Count; i++)
+        {
+            list[i] = rand[i].Item2;
         }
     }
 }

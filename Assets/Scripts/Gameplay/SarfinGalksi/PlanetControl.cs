@@ -32,7 +32,8 @@ public class PlanetControl : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             itemsGenerations[i] = ProceduralGeneration.instance.Next();
-            items.Add(GetNumberedItem(itemsGenerations[i], 13));
+            Item item = GetNumberedItem(itemsGenerations[i], 5);
+            items.Add(item);
             if (i < Save.instance.session.skills[Skills.Monitor])
                 itemsText += GetNameOfItem(items[i]) + "\n";
         }
@@ -80,6 +81,10 @@ public class PlanetControl : MonoBehaviour
                 {
                     continue;
                 }
+                if (item.type == ItemType.None)
+                {
+                    continue;
+                }
                 if (item.type == ItemType.Case)
                 {
                     Save.instance.session.cases.Add(item);
@@ -100,27 +105,27 @@ public class PlanetControl : MonoBehaviour
         switch (num % typeMod)
         {
             case 0:
-                item.type = ItemType.DetailBook;
+                item.type = ItemType.None;
                 break;
             case 1:
                 item.type = ItemType.Case;
                 break;
             case 2:
-                item.type = ItemType.DetailFire;
+                if (num % 3 == 0)
+                    item.type = ItemType.DetailFire;
+                else if (num % 3 == 1)
+                    item.type = ItemType.DetailIce;
+                else if (num % 3 == 2)
+                    item.type = ItemType.DetailRadiation;
                 break;
             case 3:
-                item.type = ItemType.DetailIce;
+                item.type = ItemType.SpecialDetail;
                 break;
             case 4:
-                item.type = ItemType.DetailRadiation;
-                break;
-            default:
-                if ((num - 4) % 3 == 0)
-                    item.type = ItemType.Food;
-                else if ((num - 4) % 3 == 1)
+                if (num % 2 == 0)
                     item.type = ItemType.Water;
                 else
-                    item.type = ItemType.Fuel;
+                    item.type = ItemType.Food;
                 break;
         }
         int caset = num % 100003;

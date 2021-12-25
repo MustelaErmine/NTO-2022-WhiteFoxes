@@ -18,6 +18,7 @@ public class RadiationSource : MonoBehaviour
     int mask;
     public float? time = null;
     [SerializeField] GameObject mePrefab;
+    public float muldef = 1f;
     void Start()
     {
         texture = new Texture2D(width, height);
@@ -37,7 +38,6 @@ public class RadiationSource : MonoBehaviour
         {
             scale *= transform.parent.localScale.x;
         }
-        print(scale);
         rradius = scale / 2;
         if (transform.position != lastPosition && !time.HasValue)
             CreateTexture();
@@ -156,8 +156,7 @@ public class RadiationSource : MonoBehaviour
         {
             Ray ray = new Ray(transform.position, other.transform.position - transform.position);
             RaycastHit[] hits = Physics.RaycastAll(ray, (other.transform.position - transform.position).magnitude, mask);
-            float mul = 1f - (other.transform.position - transform.position).magnitude / rradius;
-            print(mul);
+            float mul = (1f - (other.transform.position - transform.position).magnitude / rradius) * muldef;
             foreach (RaycastHit hit in hits)
             {
                 mul *= 1f - hit.transform.GetComponent<AntiRadiationWall>().antiEffect;
@@ -180,11 +179,12 @@ public class RadiationSource : MonoBehaviour
             {
                 GameObject child = Instantiate(mePrefab, other.transform);
                 child.GetComponent<RadiationSource>().time = 15f;
+                child.GetComponent<RadiationSource>().muldef = 0.75f;
                 Enemy enemy = other.GetComponent<Enemy>();
                 enemy.normal = enemy.rad; 
                 enemy.mnormal = enemy.mrad;
-                enemy.GetComponent<MeshRenderer>().material = enemy.rad;
-                enemy.GetComponent<MeshFilter>().mesh = enemy.mrad;
+                enemy.GetComponentInChildren<MeshRenderer>().material = enemy.rad;
+                enemy.GetComponentInChildren<MeshFilter>().mesh = enemy.mrad;
             }
         }
     }

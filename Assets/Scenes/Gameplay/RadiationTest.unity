@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47bb32bfc5f787144a0e90d1889f8b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  antiEffect: 0.427
+  antiEffect: 0.254
 --- !u!65 &300620717
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -463,7 +463,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1478801144
 GameObject:
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47bb32bfc5f787144a0e90d1889f8b13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  antiEffect: 0.427
+  antiEffect: 0.93
 --- !u!1 &1887262182
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,6 +677,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7811652253048162614, guid: 3cb0c2a1a084226469e454e1e9f254f3, type: 3}
+      propertyPath: antiEffect
+      value: 0.076
+      objectReference: {fileID: 0}
     - target: {fileID: 7811652253048162615, guid: 3cb0c2a1a084226469e454e1e9f254f3, type: 3}
       propertyPath: m_RootOrder
       value: 2

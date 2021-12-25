@@ -11,5 +11,6 @@
     Skin,
     Drawing,
     SpecialDetail,
-    Bonus
+    Bonus,
+    None
 }
