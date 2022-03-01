@@ -68,21 +68,21 @@ public class Detail : MonoBehaviour
         {
             work = false;
             if (_detailType == ItemType.DetailFire)
-                StartCoroutine(Shot(7f, 1f));
+                StartCoroutine(Shot(7f, 1f, 5f));
             else if (_detailType == ItemType.DetailIce)
-                StartCoroutine(Shot(7f, 2f));
+                StartCoroutine(Shot(7f, 2f, 5f));
             else if (_detailType == ItemType.DetailRadiation)
-                StartCoroutine(Shot(7f, 1.5f));
+                StartCoroutine(Shot(7f, 1.5f, 5f));
         }
     }
-    IEnumerator Shot(float arr, float sec)
+    IEnumerator Shot(float arr, float sec, float workRadius)
     {
         while (true)
         {
             yield return new WaitForSeconds(sec);
             Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
             Enemy minenemy = null;
-            float mindist = Mathf.Pow(10, 9);
+            float mindist = 1e9f;
             foreach (Enemy enemy in enemies)
             {
                 if (mindist > (transform.position - enemy.transform.position).magnitude)
@@ -91,10 +91,13 @@ public class Detail : MonoBehaviour
                     minenemy = enemy;
                 }
             }
-            GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 1, 0), new Quaternion(0, 0, 0, 0));
-            bul.GetComponent<Bullet>().target = minenemy;
-            bul.GetComponent<Bullet>().arr = arr;
-            GetComponent<AudioSource>().PlayOneShot(mainclip);
+            if (mindist <= workRadius)
+            {
+                GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 1, 0), new Quaternion(0, 0, 0, 0));
+                bul.GetComponent<Bullet>().target = minenemy;
+                bul.GetComponent<Bullet>().arr = arr;
+                GetComponent<AudioSource>().PlayOneShot(mainclip);
+            }
         }
     }
 }

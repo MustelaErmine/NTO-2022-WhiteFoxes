@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class ShipMoving : MonoBehaviour
 {
@@ -21,7 +22,11 @@ public class ShipMoving : MonoBehaviour
     const float maxVerticalSpeed = Mathf.PI / 2;
     const float maxHorizontalSpeed = Mathf.PI / 2;
 
-    Vector3 speed = Vector3.forward * 150f; 
+    Vector3 speed = Vector3.forward * 150f;
+
+    bool marchrouted = false;
+
+    public Vector2 mousePosition = new Vector2(0, 0);
 
     void Awake()
     {
@@ -34,6 +39,7 @@ public class ShipMoving : MonoBehaviour
         Vector3 new_velocity = oldVelocity;
         Vector3 new_angular_velocity = new Vector3();
 
+        /*
         if (Input.GetKey(KeyCode.W))
         {
             upWeight += vecticalEngineStep * Time.deltaTime * 60;
@@ -77,6 +83,51 @@ public class ShipMoving : MonoBehaviour
             leftWeight -= horizontalImpulseStep * Time.deltaTime * 60;
             leftWeight = Mathf.Max(0, leftWeight);
         }
+        */
+
+        if (mousePosition.y > 0f)
+        {
+            upWeight += vecticalEngineStep * Time.deltaTime * 60 * mousePosition.y;
+            upWeight = Mathf.Min(maxHorizontalSpeed, upWeight);
+        }
+        else
+        {
+            upWeight -= verticalImpulseStep * Time.deltaTime * 60;
+            upWeight = Mathf.Max(0, upWeight);
+        }
+
+        if (mousePosition.y < 0f)
+        {
+            downWeight += vecticalEngineStep * Time.deltaTime * 60 * -1 * mousePosition.y;
+            downWeight = Mathf.Min(maxVerticalSpeed, downWeight);
+        }
+        else
+        {
+            downWeight -= verticalImpulseStep * Time.deltaTime * 60;
+            downWeight = Mathf.Max(0, downWeight);
+        }
+
+        if (mousePosition.x > 0f)
+        {
+            rightWeight += horizontalEngineStep * Time.deltaTime * 60 * mousePosition.x;
+            rightWeight = Mathf.Min(maxHorizontalSpeed, rightWeight);
+        }
+        else
+        {
+            rightWeight -= horizontalImpulseStep * Time.deltaTime * 60;
+            rightWeight = Mathf.Max(0, rightWeight);
+        }
+
+        if (mousePosition.x < 0f)
+        {
+            leftWeight += horizontalEngineStep * Time.deltaTime * 60 * -1 * mousePosition.x;
+            leftWeight = Mathf.Min(maxHorizontalSpeed, leftWeight);
+        }
+        else
+        {
+            leftWeight -= horizontalImpulseStep * Time.deltaTime * 60;
+            leftWeight = Mathf.Max(0, leftWeight);
+        }
 
         //print($"{upWeight}, {downWeight}, { rightWeight}, {leftWeight}");
         new_angular_velocity += Vector3.Lerp(Vector3.zero, transform.TransformDirection(
@@ -90,5 +141,14 @@ public class ShipMoving : MonoBehaviour
         rigidbody.angularVelocity = new_angular_velocity;
 
         rigidbody.velocity = transform.TransformDirection(speed);
+        if (transform.position.z <= -10f && !marchrouted)
+        {
+            marchrouted = true;
+            SpaceControl.ShowMessageStatic("Вы отклонились от маршрута и будете возвращены назад.", () => {
+                transform.position = new Vector3(0, 0, 2.4f);
+                transform.rotation = new Quaternion(0, 0, 0, 0);
+                marchrouted = false;
+            });
+        }
     }
 }

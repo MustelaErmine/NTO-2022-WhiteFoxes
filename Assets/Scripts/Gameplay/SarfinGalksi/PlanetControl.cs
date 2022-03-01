@@ -26,19 +26,20 @@ public class PlanetControl : MonoBehaviour
 
         transform.Translate(direction * delta);
 
-        string itemsText = "";
         itemsGenerations = new int[4] { 0, 0, 0, 0 };
         items = new List<Item>();
+        List<Item> displayedItems = new List<Item>();
         for (int i = 0; i < 4; i++)
         {
             itemsGenerations[i] = ProceduralGeneration.instance.Next();
+            print(itemsGenerations[i]);
             Item item = GetNumberedItem(itemsGenerations[i], 5);
             items.Add(item);
             if (i < Save.instance.session.skills[Skills.Monitor])
-                itemsText += GetNameOfItem(items[i]) + "\n";
+                displayedItems.Add(items[i]);
         }
 
-        myPanel.GetChild(1).GetComponent<Text>().text += itemsText;
+        myPanel.GetChild(1).GetComponent<Text>().text = Item.ListToString(displayedItems.ToArray());
     }
     int _generationNumber = 0;
     int type = 0;
@@ -169,11 +170,5 @@ public class PlanetControl : MonoBehaviour
             }
         }
         return item;
-    }
-    public static string GetNameOfItem(Item item)
-    {
-        if (item.type == ItemType.Case)
-            return item.type.ItemToString() + " " + item.caseType.ToString();
-        return item.type.ItemToString();
     }
 }

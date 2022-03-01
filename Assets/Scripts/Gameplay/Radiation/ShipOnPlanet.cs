@@ -10,6 +10,7 @@ public class ShipOnPlanet : MonoBehaviour
     float health;
     [SerializeField] Slider healthSlider;
     [SerializeField] RectTransform messageBox;
+    [SerializeField] FixedJoystick joystick;
     float speed = 10f;
     public new Rigidbody rigidbody;
     new Transform transform;
@@ -24,6 +25,7 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] Texture[] crystalsTexts;
     [SerializeField] MeshRenderer crystal;
     public bool canMove = true;
+    Action action;
 
     void Start()
     {
@@ -91,6 +93,7 @@ public class ShipOnPlanet : MonoBehaviour
         Vector3 newVelocity = Vector3.zero;
         if (canMove)
         {
+            /*
             if (Input.GetKey(KeyCode.W))
                 newVelocity.z += speed;
             if (Input.GetKey(KeyCode.S))
@@ -99,6 +102,9 @@ public class ShipOnPlanet : MonoBehaviour
                 newVelocity.x -= speed;
             if (Input.GetKey(KeyCode.D))
                 newVelocity.x += speed;
+                */
+            newVelocity.z = joystick.Vertical * speed;
+            newVelocity.x = joystick.Horizontal * speed;
         }
         rigidbody.velocity = newVelocity;
     }
@@ -125,12 +131,24 @@ public class ShipOnPlanet : MonoBehaviour
         messageBox.GetComponent<AudioSource>().PlayOneShot(notif);
         enabled = false;
         rigidbody.velocity = Vector3.zero;
-        StartCoroutine(WaitToButton(action));
+        //StartCoroutine(WaitToButton(action));
+        this.action = action;
     }
     public IEnumerator WaitToButton(Action action)
     {
         while (!Input.GetKeyDown(KeyCode.C))
             yield return null;
+        messageBox.gameObject.SetActive(false);
+        enabled = true;
+        yield return new WaitForSeconds(0.01f);
+        action?.Invoke();
+    }
+    public void StopWaiting()
+    {
+        StartCoroutine(StopWaitingCoroutine());
+    }
+    public IEnumerator StopWaitingCoroutine()
+    {
         messageBox.gameObject.SetActive(false);
         enabled = true;
         yield return new WaitForSeconds(0.01f);

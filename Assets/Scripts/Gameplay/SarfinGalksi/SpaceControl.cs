@@ -19,6 +19,9 @@ public class SpaceControl : MonoBehaviour
 
     public float energy = 0;
     public float hyperFuel = 0;
+    public bool highPressed = false;
+
+    Action answeredAction;
 
     void Awake()
     {
@@ -54,13 +57,13 @@ public class SpaceControl : MonoBehaviour
         food.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
         water.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count.ToString();
         years.text = Save.instance.session.years.ToString();
-        string inv = "";
+        List<Item> inv = new List<Item>();
         foreach(ItemType item in Save.instance.session.inventory)
         {
             if (item != ItemType.Food && item != ItemType.Water)
-                inv += item.ItemToString() + "\n";
+                inv.Add(new Item { type = item, caseItem = ItemType.None, caseType = CaseType.Unsimple });
         }
-        invent.text = inv;
+        invent.text = Item.ListToString(inv.ToArray());
     }
     private void Start()
     {
@@ -96,12 +99,14 @@ public class SpaceControl : MonoBehaviour
     void Update()
     {
         float newTimeScale = 1f;
+        /*
         if (Input.GetKey(KeyCode.LeftControl) && energy > 0f)
         {
             energy -= 1f / Save.instance.session.skills[Skills.TimeSlowCapacity] * Time.unscaledDeltaTime;
             newTimeScale *= 0.5f;
         } 
-        else if (Input.GetKey(KeyCode.LeftShift) && energy > 0f)
+        
+        else */if (highPressed && energy > 0f)
         {
             energy -= 1f / Save.instance.session.skills[Skills.TimeSpeedCapacity] * Time.unscaledDeltaTime;
             newTimeScale *= 2f;
@@ -125,17 +130,6 @@ public class SpaceControl : MonoBehaviour
         energySlider.value = energy;
         fuelSlider.value = hyperFuel;
 
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                if (Mathf.Abs((ship.transform.position - planets[i].transform.position).magnitude) < 2000f)
-                {
-                    planetsPanels[i].gameObject.SetActive(true);
-                }
-            }
-        }
-
         for (int i = 0; i < 3; i++)
         {
             planetsPanels[i].anchoredPosition = Utils.WorldToCanvasPostion(planets[i].transform.position) +
@@ -146,13 +140,22 @@ public class SpaceControl : MonoBehaviour
             }
         }
     }
-
-    private void FixedUpdate()
+    public void HyperJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(hyperFuel - 1f) < 1e-5)
+        if (Mathf.Abs(hyperFuel - 1f) < 1e-5)
         {
             ship.transform.Translate(ship.transform.forward * Save.instance.session.skills[Skills.HyperDriveForce] * 1000f);
             hyperFuel = 0;
+        }
+    }
+    public void PlanetInfo()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (Mathf.Abs((ship.transform.position - planets[i].transform.position).magnitude) < 2000f)
+            {
+                planetsPanels[i].gameObject.SetActive(true);
+            }
         }
     }
 
@@ -196,11 +199,23 @@ public class SpaceControl : MonoBehaviour
         messageBox.GetComponent<AudioSource>().PlayOneShot(notif);
         ship.enabled = false;
         ship.rigidbody.velocity = Vector3.zero;
-        StartCoroutine(WaitToButton(action));
+        answeredAction = action;
+        //StartCoroutine(WaitToButton(action));
     }
     public static void ShowMessageStatic(string text, Action action = null)
     {
         instance.ShowMessage(text, action);
+    }
+    public void StopWaiting()
+    {
+        StartCoroutine(StopWaitingCoroutine());
+    }
+    public IEnumerator StopWaitingCoroutine()
+    {
+        messageBox.gameObject.SetActive(false);
+        ship.enabled = true;
+        yield return new WaitForSeconds(0.01f);
+        answeredAction?.Invoke();
     }
     public IEnumerator WaitToButton(Action action)
     {

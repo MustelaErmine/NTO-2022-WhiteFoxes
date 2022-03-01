@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Gameplay\Radiation\RadiationSource.cs" />
     <Compile Include="Assets\Scripts\Globals\Skills.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\ShipMoving.cs" />
+    <Compile Include="Assets\Scripts\Menus\ButtonSound.cs" />
     <Compile Include="Assets\Scripts\Globals\Utils.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\AntiRadiationWall.cs" />
     <Compile Include="Assets\Scripts\Menus\FirstEnterCutscene.cs" />
@@ -79,7 +80,9 @@
     <Compile Include="Assets\Scripts\Gameplay\Radiation\ShipOnPlanet.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\Enemy.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Kastracshin\ConstructionController.cs" />
-    <Compile Include="Assets\Scripts\Menus\ButtonSound.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\SpaceMovePanel.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\FixedJoystick.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\HighSpeedButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] Text record;
     static bool createdSrc = false;
+    Animator an;
     public void Start()
     {
         Save.Load();
