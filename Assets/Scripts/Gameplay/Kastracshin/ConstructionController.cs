@@ -107,7 +107,8 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
         }
         foreach (ItemType item in Save.instance.session.inventory)
         {
-            if (new List<ItemType> { ItemType.DetailFire, ItemType.DetailIce, ItemType.DetailRadiation }.Contains(item))
+            if (new List<ItemType> { ItemType.DetailFire, ItemType.DetailIce, ItemType.DetailRadiation,
+                ItemType.AutoFire, ItemType.AutoIce, ItemType.AutoRadiation}.Contains(item))
             {
                 GameObject itemBtn = Instantiate(scrollPat, scrollParent);
                 itemBtn.GetComponentInChildren<Text>().text = item.ItemToString();

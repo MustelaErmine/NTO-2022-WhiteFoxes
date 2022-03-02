@@ -9,7 +9,7 @@ public class Detail : MonoBehaviour
     private ItemType _detailType;
     public ConstructionController controller;
     public ShipDetail reference;
-    public bool work = false;
+    public bool work = false, auto;
     [SerializeField] GameObject bullet;
     [SerializeField] Mesh fMesh, eMesh, rMesh;
     [SerializeField] Material fMat, eMat, rMat;
@@ -21,7 +21,6 @@ public class Detail : MonoBehaviour
 
     float arr, sec, workRadius;
 
-    const float viewAngle = 30f;
     public ItemType DetailType
     {
         set
@@ -37,12 +36,27 @@ public class Detail : MonoBehaviour
                     m = fMesh;
                     c = fSound;
                     break;
+                case ItemType.AutoFire:
+                    mat = fMat;
+                    m = fMesh;
+                    c = fSound;
+                    break;
                 case ItemType.DetailIce:
                     mat = eMat;
                     m = eMesh;
                     c = eSound;
                     break;
+                case ItemType.AutoIce:
+                    mat = eMat;
+                    m = eMesh;
+                    c = eSound;
+                    break;
                 case ItemType.DetailRadiation:
+                    mat = rMat;
+                    m = rMesh;
+                    c = rSound;
+                    break;
+                case ItemType.AutoRadiation:
                     mat = rMat;
                     m = rMesh;
                     c = rSound;
@@ -68,27 +82,32 @@ public class Detail : MonoBehaviour
         //print(Save.instance.session.shipDetails);
         controller.UpdateItems();
         controller.detailTypeUse = ItemType.Bonus;
+    }
+    private void Start()
+    {
         cam = GetComponentInChildren<Camera>();
         camOldEulers = cam.transform.eulerAngles;
-    }
 
-    public void Update()
-    {
+        if (_detailType == ItemType.DetailFire || _detailType == ItemType.AutoFire)
+        {
+            arr = 7f; sec = 1f; workRadius = 5f;
+        }
+        else if (_detailType == ItemType.DetailIce || _detailType == ItemType.AutoIce)
+        {
+            arr = 7f; sec = 2f; workRadius = 5f;
+        }
+        else if (_detailType == ItemType.DetailRadiation || _detailType == ItemType.AutoRadiation)
+        {
+            arr = 7f; sec = 1.5f; workRadius = 5f;
+        }
         if (work)
         {
             work = false;
-            if (_detailType == ItemType.DetailFire)
-            {
-                arr = 7f; sec = 1f; workRadius = 5f;
-            }
-            else if (_detailType == ItemType.DetailIce)
-            {
-                arr = 7f; sec = 2f; workRadius = 5f;
-            }
-            else if (_detailType == ItemType.DetailRadiation)
-            {
-                arr = 7f; sec = 1.5f; workRadius = 5f;
-            }
+        }
+        if (_detailType == ItemType.AutoFire ||
+            _detailType == ItemType.AutoIce ||
+            _detailType == ItemType.AutoRadiation)
+        {
             StartCoroutine(Shot());
         }
     }
@@ -119,13 +138,6 @@ public class Detail : MonoBehaviour
     }
     public void MakeShot(Vector3 vector)
     {
-        float arr = 0f;
-        if (_detailType == ItemType.DetailFire)
-            arr = 7;
-        else if (_detailType == ItemType.DetailIce)
-            arr = 7;
-        else if (_detailType == ItemType.DetailRadiation)
-            arr = 7;
         if ((DateTime.Now - lastShot).TotalSeconds > sec) {
             //vector = transform.position + vector * 10f;
             GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 0.5f, 0), new Quaternion(0, 0, 0, 0));

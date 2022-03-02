@@ -25,6 +25,7 @@ public class ShipDetail
 
     public float pos_x, pos_y, pos_z, q_x, q_y, q_z;
     public ItemType item;
+    public bool auto = false;
     public ShipDetail(Vector3 position, Vector3 quaternion, ItemType item)
     {
         this.Position = position;

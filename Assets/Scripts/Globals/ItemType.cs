@@ -12,5 +12,8 @@
     Drawing,
     SpecialDetail,
     Bonus,
+    AutoFire,
+    AutoIce,
+    AutoRadiation,
     None
 }

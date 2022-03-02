@@ -15,7 +15,7 @@ public class ShipDisplaying : MonoBehaviour
         List<Detail> details = new List<Detail>();
         foreach (ShipDetail item in list)
         {
-            details.Add(CreateDetail(item.Position, item.Rotation, item.item));
+            details.Add(CreateDetail(item.Position, item.Rotation, item.item, item.auto));
         }
         ship = GetComponent<ShipOnPlanet>();
         if (ship != null)
@@ -29,15 +29,16 @@ public class ShipDisplaying : MonoBehaviour
             }*/
         }
     }
-    public Detail CreateDetail(Vector3 position, Vector3 quaternion, ItemType type)
+    public Detail CreateDetail(Vector3 position, Vector3 quaternion, ItemType type, bool auto)
     {
         GameObject obj = Instantiate(detail, transform);
         obj.transform.localPosition = new Vector3(position.z, position.y, -position.x);
         obj.transform.eulerAngles = new Vector3(quaternion.x, quaternion.y + 90f, quaternion.z);
         //obj.transform.eulerAngles = quaternion;
         Detail detailController = obj.GetComponent<Detail>();
+        detailController.auto = auto;
         detailController.DetailType = type;
-        if (work)
+        if (work && auto)
         {
             detailController.work = true;
         }

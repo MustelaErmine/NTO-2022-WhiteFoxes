@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class Session
 {
-    public long randomSeed = 37613761;
+    public long randomSeed = 37613761, gold = 0;
     public int step = 0, years = 0;
     public uint randomGenerationsWas = 0;
     public uint randomGenerationsWasInOldStep = 0;

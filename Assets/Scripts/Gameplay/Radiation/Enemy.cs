@@ -34,6 +34,8 @@ public class Enemy : MonoBehaviour
         if (health < 0f)
         {
             death.PlayOneShot(deathClip);
+            if (Random.value > 0.5)
+                Save.instance.session.gold += 10;
             Destroy(gameObject);
         }
     }

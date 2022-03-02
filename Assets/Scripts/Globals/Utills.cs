@@ -48,6 +48,12 @@ public static class Utills
                 return "Топливо";
             case ItemType.Skin:
                 return "Скин";
+            case ItemType.AutoFire:
+                return "Авто-Огненная пушка";
+            case ItemType.AutoIce:
+                return "Авто-Электропушка";
+            case ItemType.AutoRadiation:
+                return "Авто-Радиационная пушка";
             default:
                 return "Error";
         }

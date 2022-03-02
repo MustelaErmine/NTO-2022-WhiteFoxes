@@ -111,21 +111,29 @@ public class PlanetControl : MonoBehaviour
                 item.type = ItemType.Case;
                 break;
             case 2:
-                if (num % 3 == 0)
-                    item.type = ItemType.DetailFire;
-                else if (num % 3 == 1)
-                    item.type = ItemType.DetailIce;
-                else if (num % 3 == 2)
-                    item.type = ItemType.DetailRadiation;
+                //if (num % 6 == 0)
+                //    item.type = ItemType.DetailFire;
+                //else if (num % 6 == 1)
+                //    item.type = ItemType.DetailIce;
+                //else if (num % 6 == 2)
+                //    item.type = ItemType.DetailRadiation;
+                //else if (num % 6 == 3)
+                //    item.type = ItemType.AutoFire;
+                //else if (num % 6 == 4)
+                //    item.type = ItemType.AutoIce;
+                //else if (num % 6 == 5)
+                //    item.type = ItemType.AutoRadiation;
+                item.type = ItemType.Water;
                 break;
             case 3:
                 item.type = ItemType.SpecialDetail;
                 break;
             case 4:
-                if (num % 2 == 0)
-                    item.type = ItemType.Water;
-                else
-                    item.type = ItemType.Food;
+                //if (num % 2 == 0)
+                //    item.type = ItemType.Water;
+                //else
+                //    item.type = ItemType.Food;
+                item.type = ItemType.Food;
                 break;
         }
         int caset = num % 100003;
@@ -145,6 +153,7 @@ public class PlanetControl : MonoBehaviour
                 item.caseType = CaseType.Simple;
             else
                 item.caseType = CaseType.Opened;
+
             if (new List<CaseType> { CaseType.Opened, CaseType.Simple }.Contains(item.caseType))
             {
                 int caseItem = num % 3;
@@ -157,13 +166,19 @@ public class PlanetControl : MonoBehaviour
             }
             else
             {
-                int caseItem = num % 5;
+                int caseItem = num % 8;
                 if (caseItem == 0)
                     item.caseItem = ItemType.Bonus;
                 else if (caseItem == 1)
                     item.caseItem = ItemType.Drawing;
                 else if (caseItem == 2)
                     item.caseItem = ItemType.SpecialDetail;
+                else if (caseItem == 3)
+                    item.caseItem = ItemType.AutoFire;
+                else if (caseItem == 4)
+                    item.caseItem = ItemType.AutoIce;
+                else if (caseItem == 5)
+                    item.caseItem = ItemType.AutoRadiation;
                 else
                     item.caseItem = ItemType.Skin;
             }
