@@ -32,7 +32,6 @@ public class PlanetControl : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             itemsGenerations[i] = ProceduralGeneration.instance.Next();
-            print(itemsGenerations[i]);
             Item item = GetNumberedItem(itemsGenerations[i], 5);
             items.Add(item);
             if (i < Save.instance.session.skills[Skills.Monitor])

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ShipOnPlanet : MonoBehaviour
 {
@@ -24,11 +25,16 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] Mesh[] crystals;
     [SerializeField] Texture[] crystalsTexts;
     [SerializeField] MeshRenderer crystal;
+    [SerializeField] Transform detailDisplay;
+    Camera mainCam;
+    Detail useDetail = null;
     public bool canMove = true;
     Action action;
+    public Detail[] details;
 
     void Start()
     {
+        mainCam = Camera.main;
         health = maxHealth;
         rigidbody = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
@@ -69,6 +75,7 @@ public class ShipOnPlanet : MonoBehaviour
         enemyor.SetActive(false);
 
         StartCoroutine(Enemies());
+        UpdateDetailDisplay();
     }
 
     internal void UpdateWaterFood()
@@ -76,6 +83,58 @@ public class ShipOnPlanet : MonoBehaviour
         food.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
         water.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count.ToString();
         years.text = Save.instance.session.years.ToString();
+    }
+    void UpdateDetailDisplay()
+    {
+        Transform child = detailDisplay.GetChild(0);
+        if (details.Length == 0)
+        {
+            Destroy(child.gameObject);
+        } 
+        else
+        {
+            void SetupButton(int i, Transform transform)
+            {
+                int j = i;
+                transform.GetComponentInChildren<Text>().text = details[j].DetailType.ItemToString();
+                transform.GetComponentInChildren<Button>().onClick.AddListener(() => {
+                    ChangeCameraToDetail(j);
+                });
+            }
+            for (int i = 0; i < details.Length; i++)
+            {
+                if (i == 0)
+                {
+                    SetupButton(i, child);
+                } 
+                else
+                {
+                    Transform obj = Instantiate(child, detailDisplay);
+                    SetupButton(i, obj);
+                }
+            }
+        }
+    }
+    void ChangeCameraToDetail(int i)
+    {
+        if (useDetail == null)
+        {
+            details[i].GetComponentInChildren<Camera>().enabled = true;
+            mainCam.enabled = false;
+            useDetail = details[i];
+        } 
+        else if (useDetail == details[i])
+        {
+            mainCam.enabled = true;
+            details[i].GetComponentInChildren<Camera>().enabled = false;
+            useDetail = null;
+        }
+        else
+        {
+            details[i].GetComponentInChildren<Camera>().enabled = true;
+            useDetail.GetComponentInChildren<Camera>().enabled = false;
+            useDetail = details[i];
+        }
     }
 
     void LateUpdate()

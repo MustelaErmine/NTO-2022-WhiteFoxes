@@ -13,6 +13,7 @@ public class Detail : MonoBehaviour
     [SerializeField] Mesh fMesh, eMesh, rMesh;
     [SerializeField] Material fMat, eMat, rMat;
     [SerializeField] AudioClip fSound, eSound, rSound;
+    [SerializeField] Camera cam; 
     AudioClip mainclip;
     public ItemType DetailType
     {
@@ -99,5 +100,19 @@ public class Detail : MonoBehaviour
                 GetComponent<AudioSource>().PlayOneShot(mainclip);
             }
         }
+    }
+    void MakeShot(Vector3 vector)
+    {
+        float arr = 0f;
+        if (_detailType == ItemType.DetailFire)
+            arr = 7;
+        else if (_detailType == ItemType.DetailIce)
+            arr = 7;
+        else if (_detailType == ItemType.DetailRadiation)
+            arr = 7;
+        GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 1, 0), new Quaternion(0, 0, 0, 0));
+        bul.GetComponent<Bullet>().targetVector = vector;
+        bul.GetComponent<Bullet>().arr = arr;
+        GetComponent<AudioSource>().PlayOneShot(mainclip);
     }
 }

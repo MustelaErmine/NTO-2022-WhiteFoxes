@@ -34,9 +34,6 @@ public class SpaceControl : MonoBehaviour
             Save.instance.session.inventory.Add(ItemType.Food);
             Save.instance.session.inventory.Add(ItemType.Fuel);
         }
-
-        foreach (ItemType t in Save.instance.session.inventory)
-            print(t.ItemToString());
         Save.instance.session.step += 1;
         Save.Keep();
         foreach (RectTransform rectTransform in planetsPanels)
@@ -132,7 +129,7 @@ public class SpaceControl : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            planetsPanels[i].anchoredPosition = Utils.WorldToCanvasPostion(planets[i].transform.position) +
+            planetsPanels[i].anchoredPosition = Utills.WorldToCanvasPostion(planets[i].transform.position) +
                 new Vector2(Screen.width / 20f, 0);
             if (!planets[i].GetComponentInChildren<MeshRenderer>().isVisible)
             {
