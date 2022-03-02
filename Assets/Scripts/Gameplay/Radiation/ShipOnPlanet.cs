@@ -27,7 +27,7 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] MeshRenderer crystal;
     [SerializeField] Transform detailDisplay;
     Camera mainCam;
-    Detail useDetail = null;
+    public Detail useDetail = null;
     public bool canMove = true;
     Action action;
     public Detail[] details;

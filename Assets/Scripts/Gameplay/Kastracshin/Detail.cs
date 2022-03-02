@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,8 +14,14 @@ public class Detail : MonoBehaviour
     [SerializeField] Mesh fMesh, eMesh, rMesh;
     [SerializeField] Material fMat, eMat, rMat;
     [SerializeField] AudioClip fSound, eSound, rSound;
-    [SerializeField] Camera cam; 
+    public Camera cam;
+    Vector3 camOldEulers;
     AudioClip mainclip;
+    DateTime lastShot = DateTime.MinValue;
+
+    float arr, sec, workRadius;
+
+    const float viewAngle = 30f;
     public ItemType DetailType
     {
         set
@@ -61,6 +68,8 @@ public class Detail : MonoBehaviour
         //print(Save.instance.session.shipDetails);
         controller.UpdateItems();
         controller.detailTypeUse = ItemType.Bonus;
+        cam = GetComponentInChildren<Camera>();
+        camOldEulers = cam.transform.eulerAngles;
     }
 
     public void Update()
@@ -69,14 +78,21 @@ public class Detail : MonoBehaviour
         {
             work = false;
             if (_detailType == ItemType.DetailFire)
-                StartCoroutine(Shot(7f, 1f, 5f));
+            {
+                arr = 7f; sec = 1f; workRadius = 5f;
+            }
             else if (_detailType == ItemType.DetailIce)
-                StartCoroutine(Shot(7f, 2f, 5f));
+            {
+                arr = 7f; sec = 2f; workRadius = 5f;
+            }
             else if (_detailType == ItemType.DetailRadiation)
-                StartCoroutine(Shot(7f, 1.5f, 5f));
+            {
+                arr = 7f; sec = 1.5f; workRadius = 5f;
+            }
+            StartCoroutine(Shot());
         }
     }
-    IEnumerator Shot(float arr, float sec, float workRadius)
+    IEnumerator Shot()
     {
         while (true)
         {
@@ -101,7 +117,7 @@ public class Detail : MonoBehaviour
             }
         }
     }
-    void MakeShot(Vector3 vector)
+    public void MakeShot(Vector3 vector)
     {
         float arr = 0f;
         if (_detailType == ItemType.DetailFire)
@@ -110,9 +126,19 @@ public class Detail : MonoBehaviour
             arr = 7;
         else if (_detailType == ItemType.DetailRadiation)
             arr = 7;
-        GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 1, 0), new Quaternion(0, 0, 0, 0));
-        bul.GetComponent<Bullet>().targetVector = vector;
-        bul.GetComponent<Bullet>().arr = arr;
-        GetComponent<AudioSource>().PlayOneShot(mainclip);
+        if ((DateTime.Now - lastShot).TotalSeconds > sec) {
+            //vector = transform.position + vector * 10f;
+            GameObject bul = Instantiate(bullet, transform.position + new Vector3(0, 0.5f, 0), new Quaternion(0, 0, 0, 0));
+            bul.GetComponent<Bullet>().targetVector = vector;
+            bul.GetComponent<Bullet>().arr = arr;
+            GetComponent<AudioSource>().PlayOneShot(mainclip);
+            lastShot = DateTime.Now;
+        }
+    }
+    public void RotateCamera(Vector3 eulers)
+    {
+        Vector3 now = cam.transform.eulerAngles + new Vector3(eulers.y, -eulers.x) * 10f;
+        Vector3 old = camOldEulers;
+        cam.transform.eulerAngles = now;
     }
 }

@@ -70,6 +70,7 @@ public class SpaceControl : MonoBehaviour
         {
             CreateRandomEvent();
         }
+#if !UNITY_EDITOR
         try
         {
             for (int i = 0; i < Mathf.CeilToInt((float)Save.instance.session.step / 2f); i++)
@@ -87,7 +88,7 @@ public class SpaceControl : MonoBehaviour
         {
             Die("У вас недостаточно ресурсов для продолжения приключения");
         }
-
+#endif
         food.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Food).Count.ToString();
         water.text = Save.instance.session.inventory.FindAll((ItemType t) => t == ItemType.Water).Count.ToString();
         years.text = Save.instance.session.years.ToString();

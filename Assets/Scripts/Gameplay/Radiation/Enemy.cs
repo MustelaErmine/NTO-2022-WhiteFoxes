@@ -29,7 +29,6 @@ public class Enemy : MonoBehaviour
     public void Hurt(float arr)
     {
         health -= arr;
-        print(health);
         StartCoroutine(Hurted());
         
         if (health < 0f)

@@ -13,8 +13,6 @@ public class Bullet : MonoBehaviour
     DateTime started;
     public void Start()
     {
-        print(target);
-        print(targetVector);
         started = DateTime.Now;
         if (target == null)
             isTargeted = false;
@@ -42,6 +40,12 @@ public class Bullet : MonoBehaviour
         }
         else
         {
+            Enemy nearest = NearestEnemy();
+            if (nearest && (nearest.transform.position - transform.position).magnitude < 2f)
+            {
+                nearest.Hurt(arr);
+                Destroy(gameObject);
+            }
             if ((DateTime.Now - started).TotalSeconds > timeAlive)
             {
                 Destroy(gameObject);
@@ -51,5 +55,20 @@ public class Bullet : MonoBehaviour
                 transform.Translate(targetVector.normalized);
             }
         }
+    }
+    Enemy NearestEnemy()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        Enemy minenemy = null;
+        float mindist = 1e9f;
+        foreach (Enemy enemy in enemies)
+        {
+            if (mindist > (transform.position - enemy.transform.position).magnitude)
+            {
+                mindist = (transform.position - enemy.transform.position).magnitude;
+                minenemy = enemy;
+            }
+        }
+        return minenemy;
     }
 }

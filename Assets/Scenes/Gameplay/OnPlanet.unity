@@ -2941,6 +2941,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: ef169b30c5400c04f8d894035c3995a5, type: 3}
   crystal: {fileID: 465213976}
   detailDisplay: {fileID: 1635189761}
+  useDetail: {fileID: 0}
   canMove: 1
   details: []
 --- !u!54 &799839618
@@ -6630,7 +6631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3c36f42133d3c4db9f0282472de037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ship: {fileID: 0}
+  ship: {fileID: 799839617}
 --- !u!1 &1635189760
 GameObject:
   m_ObjectHideFlags: 0
