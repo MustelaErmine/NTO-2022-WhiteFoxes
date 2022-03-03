@@ -20,9 +20,6 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            Vector3 oldpos = transform.position;
-            Vector3 newPos = ship.transform.position;
-            GetComponent<Rigidbody>().velocity = (newPos - oldpos).normalized;
             yield return null;
         }
     }
@@ -58,5 +55,11 @@ public class Enemy : MonoBehaviour
             other.GetComponent<ShipOnPlanet>().ApplyRadiation(15f);
             timer = 0f;
         }
+    }
+    private void FixedUpdate()
+    {
+        Vector3 oldpos = transform.position;
+        Vector3 newPos = ship.transform.position;
+        transform.Translate((newPos - oldpos).normalized * Time.deltaTime);
     }
 }

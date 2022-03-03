@@ -13,6 +13,7 @@ public class Session
     public List<ItemType> inventory;
     public List<Item> cases;
     public List<ShipDetail> shipDetails;
+    public Ship ship;
 
     public Session()
     {

@@ -19,6 +19,7 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
     Transform scrollParent;
     public RectTransform messageBox, casesPanel;
     public AudioClip notif;
+    private Action action;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -154,17 +155,29 @@ public class ConstructionController : MonoBehaviour, IDragHandler, IPointerDownH
         Save.instance.session.NextStep();
         UnityEngine.SceneManagement.SceneManager.LoadScene("PlanetChoice");
     }
+    public IEnumerator WaitToButton(Action action)
+    {
+        while (!Input.GetKeyDown(KeyCode.C))
+            yield return null;
+        messageBox.gameObject.SetActive(false);
+        enabled = true;
+        yield return new WaitForSeconds(0.01f);
+        action?.Invoke();
+    }
     public void ShowMessage(string text, Action action)
     {
         messageBox.gameObject.SetActive(true);
         messageBox.GetChild(1).GetComponent<Text>().text = text;
         messageBox.GetComponent<AudioSource>().PlayOneShot(notif);
-        StartCoroutine(WaitToButton(action));
+        //StartCoroutine(WaitToButton(action));
+        this.action = action;
     }
-    public IEnumerator WaitToButton(Action action)
+    public void StopWaiting()
     {
-        while (!Input.GetKeyDown(KeyCode.C))
-            yield return null;
+        StartCoroutine(StopWaitingCoroutine());
+    }
+    public IEnumerator StopWaitingCoroutine()
+    {
         messageBox.gameObject.SetActive(false);
         enabled = true;
         yield return new WaitForSeconds(0.01f);

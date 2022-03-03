@@ -26,6 +26,7 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] Texture[] crystalsTexts;
     [SerializeField] MeshRenderer crystal;
     [SerializeField] Transform detailDisplay;
+    [SerializeField] Sprite firesp, icesp, radsp;
     Camera mainCam;
     public Detail useDetail = null;
     public bool canMove = true;
@@ -96,7 +97,28 @@ public class ShipOnPlanet : MonoBehaviour
             void SetupButton(int i, Transform transform)
             {
                 int j = i;
-                transform.GetComponentInChildren<Text>().text = details[j].DetailType.ItemToString();
+
+                //transform.GetComponentInChildren<Text>().text = details[j].DetailType.ItemToString();
+                Sprite sp;
+
+                switch (details[j].DetailType)
+                {
+                    case ItemType.DetailFire:
+                        sp = firesp;
+                        break;
+                    case ItemType.DetailIce:
+                        sp = icesp;
+                        break;
+                    case ItemType.DetailRadiation:
+                        sp = radsp;
+                        break;
+                    default:
+                        sp = null;
+                        break;
+                }
+
+                transform.GetComponentInChildren<Image>().sprite = sp;
+
                 transform.GetComponentInChildren<Button>().onClick.AddListener(() => {
                     ChangeCameraToDetail(j);
                 });

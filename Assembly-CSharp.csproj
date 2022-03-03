@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\HighSpeedButton.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\ShipDisplaying.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Radiation\DetailCameraMoving.cs" />
     <Compile Include="Assets\Scripts\Globals\Save.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\SpaceControl.cs" />
     <Compile Include="Assets\Scripts\Globals\Session.cs" />
@@ -83,7 +84,12 @@
     <Compile Include="Assets\Scripts\Gameplay\Radiation\ShipOnPlanet.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\Enemy.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Kastracshin\ConstructionController.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\Radiation\DetailCameraMoving.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Radiation\SkillsOnPlanet.cs" />
+    <Compile Include="Assets\Scripts\Globals\ShipBlock.cs" />
+    <Compile Include="Assets\Scripts\Globals\Ship.cs" />
+    <Compile Include="Assets\Scripts\Globals\BlockType.cs" />
+    <Compile Include="Assets\Scripts\Globals\BlockDisplayings.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Kastracshin\ShipBlockDisplay.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

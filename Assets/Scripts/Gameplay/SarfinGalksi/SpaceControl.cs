@@ -17,6 +17,9 @@ public class SpaceControl : MonoBehaviour
     [SerializeField] Text food, water, years, invent;
     [SerializeField] AudioClip notif;
 
+    [SerializeField] Image hyperJumpImg;
+    [SerializeField] Sprite hyperJumpUp, hyperJumpDown;
+
     public float energy = 0;
     public float hyperFuel = 0;
     public bool highPressed = false;
@@ -136,6 +139,15 @@ public class SpaceControl : MonoBehaviour
             {
                 planetsPanels[i].gameObject.SetActive(false);
             }
+        }
+
+        if (Mathf.Abs(hyperFuel - 1f) < 1e-5)
+        {
+            hyperJumpImg.sprite = hyperJumpUp;
+        }
+        else
+        {
+            hyperJumpImg.sprite = hyperJumpDown; 
         }
     }
     public void HyperJump()

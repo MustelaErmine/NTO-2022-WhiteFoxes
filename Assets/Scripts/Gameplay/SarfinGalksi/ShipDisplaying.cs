@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ShipDisplaying : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class ShipDisplaying : MonoBehaviour
         ship = GetComponent<ShipOnPlanet>();
         if (ship != null)
         {
-            ship.details = details.ToArray();
+            ship.details = details.Where(d => new List<ItemType> {ItemType.DetailFire, ItemType.DetailIce, 
+                ItemType.DetailRadiation}.Contains(d.DetailType)).ToArray();
             /*
             foreach(Detail d in ship.details)
             {
