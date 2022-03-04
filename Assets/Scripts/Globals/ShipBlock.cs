@@ -29,4 +29,8 @@ public struct ShipBlock
         rot_y = vec.y;
         rot_z = vec.z;
     }
+    public new string ToString()
+    {
+        return $"{type} in ({x}, {y}, {z}), number {number} from parent {parent}";
+    }
 }

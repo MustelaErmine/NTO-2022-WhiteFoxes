@@ -3,7 +3,19 @@ guid: e64b755a275c6bb4791d99581a50167d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - controller: {instanceID: 0}
+  - bullet: {instanceID: 0}
+  - fMesh: {instanceID: 0}
+  - eMesh: {instanceID: 0}
+  - rMesh: {instanceID: 0}
+  - fMat: {instanceID: 0}
+  - eMat: {instanceID: 0}
+  - rMat: {instanceID: 0}
+  - fSound: {fileID: 8300000, guid: fbfbd8c2be7c89d4aaec8661261b6115, type: 3}
+  - eSound: {fileID: 8300000, guid: fbfbd8c2be7c89d4aaec8661261b6115, type: 3}
+  - rSound: {fileID: 8300000, guid: fbfbd8c2be7c89d4aaec8661261b6115, type: 3}
+  - cam: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

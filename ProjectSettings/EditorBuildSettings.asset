@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Gameplay/OnPlanet.unity
     guid: dc1df5c9c3120e2428388af7659ad7c7
+  - enabled: 1
+    path: Assets/Scenes/Gameplay/BlockConstruction.unity
+    guid: 821b13bb63e902e4fa30cb780a94cbca
   m_configObjects: {}

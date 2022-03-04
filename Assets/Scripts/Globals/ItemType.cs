@@ -15,5 +15,8 @@
     AutoFire,
     AutoIce,
     AutoRadiation,
+    Wing,
+    GunModule,
+    Engine,
     None
 }

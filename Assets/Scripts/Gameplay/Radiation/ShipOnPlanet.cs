@@ -12,7 +12,7 @@ public class ShipOnPlanet : MonoBehaviour
     [SerializeField] Slider healthSlider;
     [SerializeField] RectTransform messageBox;
     [SerializeField] FixedJoystick joystick;
-    float speed = 10f;
+    float speed = 7f;
     public new Rigidbody rigidbody;
     new Transform transform;
     bool flagRd = false;
@@ -187,7 +187,14 @@ public class ShipOnPlanet : MonoBehaviour
             newVelocity.z = joystick.Vertical * speed;
             newVelocity.x = joystick.Horizontal * speed;
         }
-        rigidbody.velocity = newVelocity;
+        float angle = Vector3.Angle(newVelocity, Vector3.forward);
+        if (newVelocity.x < 0)
+        {
+            angle *= -1;
+        }
+        transform.localEulerAngles += new Vector3(0, angle, 0) * 0.01f;
+        //print(angle);
+        rigidbody.velocity = transform.TransformDirection(Vector3.forward) * speed * newVelocity.magnitude * 0.1f;
     }
     public void ApplyRadiation(float rad)
     {

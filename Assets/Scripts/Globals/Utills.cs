@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class Utills
@@ -54,8 +55,14 @@ public static class Utills
                 return "Авто-Электропушка";
             case ItemType.AutoRadiation:
                 return "Авто-Радиационная пушка";
+            case ItemType.GunModule:
+                return "Оруж. модуль";
+            case ItemType.Engine:
+                return "Двигатель";
+            case ItemType.Wing:
+                return "Крыло";
             default:
-                return "Error";
+                return item.ToString();
         }
     }
 
@@ -70,6 +77,58 @@ public static class Utills
         for (int i = 0; i < list.Count; i++)
         {
             list[i] = rand[i].Item2;
+        }
+    }
+    public static BlockType ToBlock(this ItemType item)
+    {
+        switch (item)
+        {
+            case ItemType.AutoFire:
+                return BlockType.AutoFire;
+            case ItemType.AutoIce:
+                return BlockType.AutoIce;
+            case ItemType.AutoRadiation:
+                return BlockType.AutoRadiation;
+            case ItemType.DetailFire:
+                return BlockType.DetailFire;
+            case ItemType.DetailIce:
+                return BlockType.DetailIce;
+            case ItemType.DetailRadiation:
+                return BlockType.DetailRadiation;
+            case ItemType.Wing:
+                return BlockType.Wing;
+            case ItemType.GunModule:
+                return BlockType.GunModule;
+            case ItemType.Engine:
+                return BlockType.Engine;
+            default:
+                return BlockType.Wing;
+        }
+    }
+    public static ItemType ToItem(this BlockType block)
+    {
+        switch (block)
+        {
+            case BlockType.Engine:
+                return ItemType.Engine;
+            case BlockType.Wing:
+                return ItemType.Wing;
+            case BlockType.GunModule:
+                return ItemType.GunModule;
+            case BlockType.AutoFire:
+                return ItemType.AutoFire;
+            case BlockType.AutoIce:
+                return ItemType.AutoIce;
+            case BlockType.AutoRadiation:
+                return ItemType.AutoRadiation;
+            case BlockType.DetailFire:
+                return ItemType.DetailFire;
+            case BlockType.DetailIce:
+                return ItemType.DetailIce;
+            case BlockType.DetailRadiation:
+                return ItemType.DetailRadiation;
+            default:
+                return ItemType.None;
         }
     }
 }

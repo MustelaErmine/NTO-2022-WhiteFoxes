@@ -4,6 +4,7 @@ Library\
 Temp\
 Logs/
 obj\
+AndroidBuild/
 .vs/
 *.cache
 Build/

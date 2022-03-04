@@ -6,12 +6,12 @@ public class BlockDisplayings : MonoBehaviour
 {
     [SerializeField] BlockType[] _typeCodes;
     [SerializeField] Mesh[] _typeMeshes;
-    [SerializeField] Texture[] _typeTextures;
+    [SerializeField] Material[] _typeTextures;
     public static BlockType[] typeCodes;
     public static Mesh[] typeMeshes;
-    public static Texture[] typeTextures;
+    public static Material[] typeTextures;
 
-    private void Start()
+    private void Awake()
     {
         typeCodes = _typeCodes;
         typeMeshes = _typeMeshes;

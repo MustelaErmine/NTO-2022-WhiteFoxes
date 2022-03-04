@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Linq;
 
 [Serializable]
 public class Ship
@@ -20,7 +21,17 @@ public class Ship
         }
     }
 
+    public int Engines
+    {
+        get => OfType(BlockType.Engine);
+    }
+
     public Ship ()
+    {
+        blocks = new List<ShipBlock>();
+    }
+
+    public Ship (bool nn) : this()
     {
         blocks = new List<ShipBlock> {
             new ShipBlock(BlockType.Main, Vector3.zero, Vector3.zero, Vector3.zero, 1f, 0, -1) 
@@ -32,19 +43,33 @@ public class Ship
         blocks.Add(new ShipBlock(type, position, offset, rotation, dest, MaxNumber + 1, parent));
     }
 
-    public void DeleteBlock(int number)
+    public BlockType[] DeleteBlock(int number)
     {
-        blocks.RemoveAll((ShipBlock block) => block.number == number);
-        foreach(ShipBlock block in blocks)
+        Queue<int> queue = new Queue<int>();
+        queue.Enqueue(number);
+        List<BlockType> deleted = new List<BlockType>();
+        while (queue.Count > 0)
         {
-            if (block.parent == number)
+            int i = queue.Dequeue();
+            deleted.Add(blocks.Where((ShipBlock block) => block.number == i).ToArray()[0].type);
+            blocks.RemoveAll((ShipBlock block) => block.number == i);
+            foreach (ShipBlock block in blocks)
             {
-                DeleteBlock(block.number);
-            } 
+                if (block.parent == i)
+                {
+                    queue.Enqueue(block.number);
+                }
+            }
         }
+        return deleted.ToArray();
     }
 
-    public static (Mesh, Texture) GetBlockDisplay(BlockType type)
+    public int OfType(BlockType type)
+    {
+        return blocks.Where((ShipBlock block) => block.type == type).ToArray().Length;
+    } 
+
+    public static (Mesh, Material) GetBlockDisplay(BlockType type)
     {
         int pos = 0;
         for (int i = 0; i < BlockDisplayings.typeCodes.Length; i++)
@@ -54,6 +79,10 @@ public class Ship
             }
         }
         return (BlockDisplayings.typeMeshes[pos], BlockDisplayings.typeTextures[pos]);
+    }
+    public bool CanBePlaced(Vector3 pos)
+    {
+        return !blocks.Any((ShipBlock block) => (block.Position - pos).magnitude < 0.1f);
     }
 }
 

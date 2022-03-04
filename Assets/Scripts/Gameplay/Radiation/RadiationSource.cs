@@ -129,7 +129,7 @@ public class RadiationSource : MonoBehaviour
                 return 0;
             return colors[x, y];
         }
-
+        /*
         float GetGauss (int x, int y)
         {
             float coms = 0;
@@ -137,7 +137,7 @@ public class RadiationSource : MonoBehaviour
                 for (int j = 0; j < 2; j++)
                     coms += GetDot(x + i, y + j);
             return coms / 4f;
-        }
+        }*/
 
         for (int i = 0; i < width; i++)
         {

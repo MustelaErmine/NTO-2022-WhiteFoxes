@@ -6,6 +6,6 @@ public class FirstEnterCutscene : MonoBehaviour
 {
     public void Enter()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("PlanetChoice");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("BlockConstruction");
     }
 }

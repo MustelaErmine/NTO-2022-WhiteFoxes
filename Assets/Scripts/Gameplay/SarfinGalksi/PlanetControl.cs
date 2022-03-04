@@ -38,7 +38,7 @@ public class PlanetControl : MonoBehaviour
                 displayedItems.Add(items[i]);
         }
 
-        myPanel.GetChild(1).GetComponent<Text>().text = Item.ListToString(displayedItems.ToArray());
+        myPanel.GetChild(0).GetComponent<Text>().text = Item.ListToString(displayedItems.ToArray());
     }
     int _generationNumber = 0;
     int type = 0;
@@ -111,29 +111,26 @@ public class PlanetControl : MonoBehaviour
                 item.type = ItemType.Case;
                 break;
             case 2:
-                //if (num % 6 == 0)
-                //    item.type = ItemType.DetailFire;
-                //else if (num % 6 == 1)
-                //    item.type = ItemType.DetailIce;
-                //else if (num % 6 == 2)
-                //    item.type = ItemType.DetailRadiation;
-                //else if (num % 6 == 3)
-                //    item.type = ItemType.AutoFire;
-                //else if (num % 6 == 4)
-                //    item.type = ItemType.AutoIce;
-                //else if (num % 6 == 5)
-                //    item.type = ItemType.AutoRadiation;
-                item.type = ItemType.Water;
+                if (num % 3 == 0)
+                    item.type = ItemType.GunModule;
+                else if (num % 3 == 1)
+                    item.type = ItemType.Engine;
+                else if (num % 3 == 2)
+                    item.type = ItemType.Wing;
                 break;
             case 3:
-                item.type = ItemType.SpecialDetail;
+                if (num % 3 == 0)
+                    item.type = ItemType.DetailFire;
+                else if (num % 3 == 1)
+                    item.type = ItemType.DetailIce;
+                else if (num % 3 == 2)
+                    item.type = ItemType.DetailIce;
                 break;
             case 4:
-                //if (num % 2 == 0)
-                //    item.type = ItemType.Water;
-                //else
-                //    item.type = ItemType.Food;
-                item.type = ItemType.Food;
+                if (num % 2 == 0)
+                    item.type = ItemType.Water;
+                else
+                    item.type = ItemType.Food;
                 break;
         }
         int caset = num % 100003;

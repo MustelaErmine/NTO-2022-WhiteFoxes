@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using IngameDebugConsole;
 
 public class MainMenu : MonoBehaviour
 {
@@ -12,19 +13,23 @@ public class MainMenu : MonoBehaviour
     public void Start()
     {
         Save.Load();
-        record.text = "Ваш рекорд по световым годам: " + Save.instance.record.ToString();
+        record.text = /*"Ваш рекорд по световым годам: " +*/ Save.instance.record.ToString();
         if (!createdSrc)
         {
             DontDestroyOnLoad(GameObject.Find("BtnSource"));
             createdSrc = true;
         }
+        DebugLogConsole.AddCommand("clearSave", "", () => {
+            Save.instance = new Save();
+            Save.Keep();
+        });
     }
 
     public void EnterGame()
     {
         if (Save.instance.session != null)
         {
-            SceneManager.LoadScene("PlanetChoice");
+            SceneManager.LoadScene("BlockConstruction");
         }
         else if (Save.instance.firstEnter)
         {
@@ -34,12 +39,17 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("PlanetChoice");
+            SceneManager.LoadScene("BlockConstruction");
         }
     }
 
     public void PlayFirstEnterCutscene()
     {
         SceneManager.LoadScene("FirstEnterCutscene");
+    }
+    public void EndGame()
+    {
+        Save.Keep();
+        Application.Quit();
     }
 }

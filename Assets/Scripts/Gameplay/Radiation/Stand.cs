@@ -8,7 +8,7 @@ public class Stand : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Construction");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("BlockConstruction");
         }
     }
 }
