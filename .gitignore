@@ -8,3 +8,4 @@ AndroidBuild/
 .vs/
 *.cache
 Build/
+AndroidBuild/travel.apk
