@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Gameplay\Radiation\Stand.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\FixedJoystick.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\Resource.cs" />
+    <Compile Include="Assets\Scripts\Effect\WaveEffect.cs" />
     <Compile Include="Assets\Scripts\Menus\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Kastracshin\Detail.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\SkillsOnPlanet.cs" />
@@ -89,10 +90,9 @@
     <Compile Include="Assets\Scripts\Gameplay\SarfinGalksi\ArrowToTarget.cs" />
     <Compile Include="Assets\Scripts\Globals\ProceduralGeneration.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\ShipOnPlanet.cs" />
+    <Compile Include="Assets\Scripts\Effect\WaveElement.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Radiation\Enemy.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Kastracshin\ConstructionController.cs" />
-    <Compile Include="Assets\Scripts\Effect\WaveEffect.cs" />
-    <Compile Include="Assets\Scripts\Effect\WaveElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -704,6 +704,9 @@
     <Reference Include="Unity.InternalAPIEditorBridge.001">
       <HintPath>Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Postprocessing.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -721,6 +724,9 @@
     </Reference>
     <Reference Include="Unity.2D.IK.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.IK.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Postprocessing.Runtime">
+      <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Triangle.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
@@ -748,12 +754,6 @@
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
