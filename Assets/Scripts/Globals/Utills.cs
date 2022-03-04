@@ -61,6 +61,8 @@ public static class Utills
                 return "Двигатель";
             case ItemType.Wing:
                 return "Крыло";
+            case ItemType.WingLeft:
+                return "Лев. крыло";
             default:
                 return item.ToString();
         }
@@ -101,6 +103,8 @@ public static class Utills
                 return BlockType.GunModule;
             case ItemType.Engine:
                 return BlockType.Engine;
+            case ItemType.WingLeft:
+                return BlockType.LeftWing;
             default:
                 return BlockType.Wing;
         }
@@ -127,8 +131,10 @@ public static class Utills
                 return ItemType.DetailIce;
             case BlockType.DetailRadiation:
                 return ItemType.DetailRadiation;
+            case BlockType.LeftWing:
+                return ItemType.WingLeft;
             default:
-                return ItemType.None;
+                return ItemType.Wing;
         }
     }
 }

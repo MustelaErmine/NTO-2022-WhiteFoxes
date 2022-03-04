@@ -13935,7 +13935,7 @@ MonoBehaviour:
   detail: {fileID: 6333164751830466360, guid: d7f4b1ac204d13349a8334147a2524b3, type: 3}
   blockPrefab: {fileID: 3095759992784051725, guid: 72677b41bf146d94ea7181d919a3f483, type: 3}
   work: 1
-  scale: 0.8
+  scale: 0.5
   offset: {x: -20, y: 1, z: -20}
   rotation: 180
   mainShape: {fileID: 529967823}

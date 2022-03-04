@@ -116,7 +116,10 @@ public class PlanetControl : MonoBehaviour
                 else if (num % 3 == 1)
                     item.type = ItemType.Engine;
                 else if (num % 3 == 2)
-                    item.type = ItemType.Wing;
+                    if (num % 2 == 0)
+                        item.type = ItemType.Wing;
+                    else if (num % 2 == 1)
+                        item.type = ItemType.WingLeft;
                 break;
             case 3:
                 if (num % 3 == 0)

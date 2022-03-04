@@ -9,5 +9,6 @@
     AutoRadiation,
     Engine,
     Wing,
-    GunModule
+    GunModule,
+    LeftWing
 }

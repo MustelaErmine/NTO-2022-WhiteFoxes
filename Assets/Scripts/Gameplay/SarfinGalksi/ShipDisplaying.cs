@@ -75,6 +75,24 @@ public class ShipDisplaying : MonoBehaviour
                 display.transform.GetChild(0).eulerAngles = new Vector3(0, 90, 0);
                 display.transform.GetChild(0).localPosition = new Vector3(0f, -0.5f, 0);
             }
+            if (block.type == BlockType.LeftWing)
+            {
+                display.transform.GetChild(0).localPosition = new Vector3(-0.126f, -0.439f, 0);
+                display.transform.GetChild(0).localScale = new Vector3(0.25f, 0.25f, 0.25f);
+                display.transform.GetChild(0).eulerAngles = new Vector3(0, 90, 0);
+            }
+            if (block.type == BlockType.Wing)
+            {
+                display.transform.GetChild(0).localPosition = new Vector3(-0.126f, -0.439f, 0);
+                display.transform.GetChild(0).localScale = new Vector3(0.25f, 0.25f, 0.25f);
+                display.transform.GetChild(0).eulerAngles = new Vector3(0, 90, 0);
+            }
+            if (block.type == BlockType.Main)
+            {
+                display.transform.GetChild(0).localPosition = new Vector3(-0.126f, -0.439f, 0);
+                display.transform.GetChild(0).localScale = new Vector3(0.25f, 0.25f, 0.25f);
+                display.transform.GetChild(0).eulerAngles = new Vector3(0, 90, 0);
+            }
             display.transform.parent = mainShape;
             return null;
         }

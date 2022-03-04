@@ -51,6 +51,18 @@ public class ShipBlockDisplay : MonoBehaviour
             transform.GetChild(0).localScale = new Vector3(.25f, .25f, .25f);
             transform.GetChild(0).localPosition = new Vector3(0, -0.43f, -0.25f);
         }
+        if (block.type == BlockType.LeftWing)
+        {
+            transform.GetChild(0).localPosition = new Vector3(-0.126f, -0.439f, 0);
+            transform.GetChild(0).localScale = new Vector3(0.25f, 0.25f, 0.25f);
+            transform.GetChild(0).eulerAngles = new Vector3(0, 90, 0);
+        }
+        if (block.type == BlockType.Main)
+        {
+            transform.GetChild(0).localPosition = new Vector3(0.013f, -0.439f, -0.018f);
+            transform.GetChild(0).localScale = new Vector3(0.25f, 0.25f, 0.25f);
+            transform.GetChild(0).eulerAngles = new Vector3(0, 90, 0);
+        }
         if (new List<BlockType> { BlockType.AutoFire, BlockType.AutoIce, BlockType.AutoRadiation,
             BlockType.DetailFire, BlockType.DetailIce, BlockType.DetailRadiation}.Contains(block.type))
         {
@@ -85,6 +97,33 @@ public class ShipBlockDisplay : MonoBehaviour
             back.gameObject.SetActive(false);
             right.gameObject.SetActive(true);
             left.gameObject.SetActive(true);
+            up.gameObject.SetActive(false);
+            down.gameObject.SetActive(false);
+        }
+        if (block.type == BlockType.LeftWing)
+        {
+            forw.gameObject.SetActive(false);
+            back.gameObject.SetActive(false);
+            right.gameObject.SetActive(true);
+            left.gameObject.SetActive(false);
+            up.gameObject.SetActive(false);
+            down.gameObject.SetActive(false);
+        }
+        if (block.type == BlockType.Wing)
+        {
+            forw.gameObject.SetActive(false);
+            back.gameObject.SetActive(false);
+            right.gameObject.SetActive(false);
+            left.gameObject.SetActive(true);
+            up.gameObject.SetActive(false);
+            down.gameObject.SetActive(false);
+        }
+        if (block.type == BlockType.Main)
+        {
+            forw.gameObject.SetActive(false);
+            back.gameObject.SetActive(true);
+            right.gameObject.SetActive(false);
+            left.gameObject.SetActive(false);
             up.gameObject.SetActive(false);
             down.gameObject.SetActive(false);
         }

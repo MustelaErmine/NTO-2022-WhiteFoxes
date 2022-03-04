@@ -9,3 +9,4 @@ AndroidBuild/
 *.cache
 Build/
 AndroidBuild/travel.apk
+*.apk

@@ -18,5 +18,7 @@
     Wing,
     GunModule,
     Engine,
-    None
+    None,
+    WingLeft,
+    Nose
 }
